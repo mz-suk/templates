@@ -1,0 +1,26 @@
+/** @type {import('prettier').Config} */
+module.exports = {
+  semi: true,
+  singleQuote: true,
+  tabWidth: 2,
+  trailingComma: 'es5',
+  printWidth: 100,
+  endOfLine: 'lf',
+  plugins: ['@ianvs/prettier-plugin-sort-imports'],
+  importOrder: [
+    '^(react/(.*)$)|^(react$)',
+    '^(next/(.*)$)|^(next$)',
+    '<THIRD_PARTY_MODULES>',
+    '',
+    '^@/types/(.*)$',
+    '^@/components/(.*)$',
+    '^@/hooks/(.*)$',
+    '^@/lib/(.*)$',
+    '^@/stores/(.*)$',
+    '^@/constants/(.*)$',
+    '',
+    '^[./]',
+  ],
+  importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
+  importOrderTypeScriptVersion: '5.0.0',
+}; 
