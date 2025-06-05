@@ -12,21 +12,21 @@ interface AppState {
   // 사용자 관련 상태
   user: User | null;
   isAuthenticated: boolean;
-  
+
   // UI 상태
   theme: 'light' | 'dark' | 'system';
   sidebarCollapsed: boolean;
-  
+
   // 로딩 상태
   isLoading: boolean;
-  
+
   // Actions
   setUser: (user: User | null) => void;
   setAuthenticated: (isAuthenticated: boolean) => void;
   setTheme: (theme: 'light' | 'dark' | 'system') => void;
   toggleSidebar: () => void;
   setLoading: (isLoading: boolean) => void;
-  
+
   // 로그아웃
   logout: () => void;
 }
@@ -44,24 +44,23 @@ export const useAppStore = create<AppState>()(
 
         // Actions
         setUser: (user) => set({ user }, false, 'setUser'),
-        
-        setAuthenticated: (isAuthenticated) => 
-          set({ isAuthenticated }, false, 'setAuthenticated'),
-        
+
+        setAuthenticated: (isAuthenticated) => set({ isAuthenticated }, false, 'setAuthenticated'),
+
         setTheme: (theme) => set({ theme }, false, 'setTheme'),
-        
-        toggleSidebar: () => 
+
+        toggleSidebar: () =>
           set({ sidebarCollapsed: !get().sidebarCollapsed }, false, 'toggleSidebar'),
-        
+
         setLoading: (isLoading) => set({ isLoading }, false, 'setLoading'),
-        
-        logout: () => 
+
+        logout: () =>
           set(
-            { 
-              user: null, 
-              isAuthenticated: false 
-            }, 
-            false, 
+            {
+              user: null,
+              isAuthenticated: false,
+            },
+            false,
             'logout'
           ),
       }),
@@ -78,4 +77,4 @@ export const useAppStore = create<AppState>()(
       name: 'app-store',
     }
   )
-); 
+);

@@ -60,18 +60,18 @@ export const APP_CONFIG = {
   VERSION: '1.0.0',
   AUTHOR: 'Your Team',
   REPOSITORY: 'https://github.com/your-org/nextjs-boilerplate',
-  
+
   // 페이지네이션 기본값
   DEFAULT_PAGE_SIZE: 10,
   MAX_PAGE_SIZE: 100,
-  
+
   // 파일 업로드 제한
   MAX_FILE_SIZE: 5 * 1024 * 1024, // 5MB
   ALLOWED_FILE_TYPES: ['image/jpeg', 'image/png', 'image/webp'],
-  
+
   // 디바운스 지연시간
   DEBOUNCE_DELAY: 300,
-  
+
   // 알림 표시 시간
   NOTIFICATION_DURATION: 5000,
 } as const;
@@ -119,4 +119,4 @@ export const SUCCESS_MESSAGES = {
   LOGIN_SUCCESS: '로그인되었습니다.',
   LOGOUT_SUCCESS: '로그아웃되었습니다.',
   REGISTER_SUCCESS: '회원가입이 완료되었습니다.',
-} as const; 
+} as const;

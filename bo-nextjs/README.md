@@ -120,15 +120,15 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-export default function Button({ 
-  children, 
-  variant = 'primary', 
-  size = 'md', 
-  onClick 
+export default function Button({
+  children,
+  variant = 'primary',
+  size = 'md',
+  onClick
 }: ButtonProps) {
   return (
-    <button 
-      className={cn(baseStyles, variantStyles[variant], sizeStyles[size])} 
+    <button
+      className={cn(baseStyles, variantStyles[variant], sizeStyles[size])}
       onClick={onClick}
     >
       {children}
@@ -140,8 +140,9 @@ export default function Button({
 ### API 호출
 
 ```typescript
-import { api } from '@/lib/api/client';
 import { useQuery } from '@tanstack/react-query';
+
+import { api } from '@/lib/api/client';
 
 function useUsers() {
   return useQuery({
@@ -158,7 +159,7 @@ import { useAppStore } from '@/stores/useAppStore';
 
 function MyComponent() {
   const { user, setUser, isAuthenticated } = useAppStore();
-  
+
   // 컴포넌트 로직...
 }
 ```

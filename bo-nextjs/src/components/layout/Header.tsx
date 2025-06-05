@@ -15,9 +15,7 @@ export default function Header() {
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <span className="hidden font-bold sm:inline-block">
-              Next.js Boilerplate
-            </span>
+            <span className="hidden font-bold sm:inline-block">Next.js Boilerplate</span>
           </Link>
           <nav className="flex items-center gap-4 text-sm lg:gap-6">
             <Link
@@ -40,7 +38,7 @@ export default function Header() {
             </Link>
           </nav>
         </div>
-        
+
         <Button
           variant="ghost"
           size="icon"
@@ -50,7 +48,7 @@ export default function Header() {
           {sidebarCollapsed ? <Menu className="h-5 w-5" /> : <X className="h-5 w-5" />}
           <span className="sr-only">Toggle Menu</span>
         </Button>
-        
+
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">
             {/* 검색 컴포넌트가 들어갈 자리 */}
@@ -58,9 +56,7 @@ export default function Header() {
           <nav className="flex items-center">
             {isAuthenticated ? (
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">
-                  안녕하세요, {user?.name}님
-                </span>
+                <span className="text-sm text-muted-foreground">안녕하세요, {user?.name}님</span>
                 <Button variant="outline" size="sm">
                   로그아웃
                 </Button>
@@ -80,4 +76,4 @@ export default function Header() {
       </div>
     </header>
   );
-} 
+}

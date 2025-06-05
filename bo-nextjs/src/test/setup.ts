@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+
 import { vi } from 'vitest';
 
 // Mock IntersectionObserver
@@ -11,7 +12,9 @@ import { vi } from 'vitest';
   root = null;
   rootMargin = '';
   thresholds = [];
-  takeRecords() { return []; }
+  takeRecords() {
+    return [];
+  }
 };
 
 // Mock ResizeObserver
@@ -36,4 +39,4 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
-}); 
+});

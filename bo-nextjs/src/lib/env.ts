@@ -50,4 +50,4 @@ export const env = parseEnv();
 /**
  * 환경변수 타입
  */
-export type Env = z.infer<typeof envSchema>; 
+export type Env = z.infer<typeof envSchema>;

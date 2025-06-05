@@ -85,7 +85,11 @@ class ApiClient {
     return this.request<T>(endpoint, { ...config, method: 'GET' });
   }
 
-  async post<T>(endpoint: string, data?: unknown, config?: ApiRequestConfig): Promise<ApiResponse<T>> {
+  async post<T>(
+    endpoint: string,
+    data?: unknown,
+    config?: ApiRequestConfig
+  ): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, {
       ...config,
       method: 'POST',
@@ -93,7 +97,11 @@ class ApiClient {
     });
   }
 
-  async put<T>(endpoint: string, data?: unknown, config?: ApiRequestConfig): Promise<ApiResponse<T>> {
+  async put<T>(
+    endpoint: string,
+    data?: unknown,
+    config?: ApiRequestConfig
+  ): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, {
       ...config,
       method: 'PUT',
@@ -101,7 +109,11 @@ class ApiClient {
     });
   }
 
-  async patch<T>(endpoint: string, data?: unknown, config?: ApiRequestConfig): Promise<ApiResponse<T>> {
+  async patch<T>(
+    endpoint: string,
+    data?: unknown,
+    config?: ApiRequestConfig
+  ): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, {
       ...config,
       method: 'PATCH',
@@ -120,14 +132,12 @@ export const apiClient = new ApiClient(baseURL);
 
 // 편의 함수들
 export const api = {
-  get: <T>(endpoint: string, config?: ApiRequestConfig) => 
-    apiClient.get<T>(endpoint, config),
-  post: <T>(endpoint: string, data?: unknown, config?: ApiRequestConfig) => 
+  get: <T>(endpoint: string, config?: ApiRequestConfig) => apiClient.get<T>(endpoint, config),
+  post: <T>(endpoint: string, data?: unknown, config?: ApiRequestConfig) =>
     apiClient.post<T>(endpoint, data, config),
-  put: <T>(endpoint: string, data?: unknown, config?: ApiRequestConfig) => 
+  put: <T>(endpoint: string, data?: unknown, config?: ApiRequestConfig) =>
     apiClient.put<T>(endpoint, data, config),
-  patch: <T>(endpoint: string, data?: unknown, config?: ApiRequestConfig) => 
+  patch: <T>(endpoint: string, data?: unknown, config?: ApiRequestConfig) =>
     apiClient.patch<T>(endpoint, data, config),
-  delete: <T>(endpoint: string, config?: ApiRequestConfig) => 
-    apiClient.delete<T>(endpoint, config),
-}; 
+  delete: <T>(endpoint: string, config?: ApiRequestConfig) => apiClient.delete<T>(endpoint, config),
+};

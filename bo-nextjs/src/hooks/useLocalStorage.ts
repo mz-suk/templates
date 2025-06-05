@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * 로컬 스토리지와 동기화되는 상태를 관리하는 훅
@@ -52,4 +52,4 @@ export function useLocalStorage<T>(
   }, [key]);
 
   return [storedValue, setValue];
-} 
+}
