@@ -2,7 +2,9 @@
  * 프로젝트 전역 상수 정의
  */
 
-// API 엔드포인트
+/**
+ * API 엔드포인트
+ */
 export const API_ENDPOINTS = {
   AUTH: {
     LOGIN: '/auth/login',
@@ -20,25 +22,120 @@ export const API_ENDPOINTS = {
   },
 } as const;
 
-// 로컬 스토리지 키
+/**
+ * 로컬 스토리지 키
+ */
 export const STORAGE_KEYS = {
-  ACCESS_TOKEN: 'access_token',
+  AUTH_TOKEN: 'auth_token',
   REFRESH_TOKEN: 'refresh_token',
   USER_PREFERENCES: 'user_preferences',
   THEME: 'theme',
   LANGUAGE: 'language',
 } as const;
 
-// 쿼리 키
+/**
+ * 쿼리 키
+ */
 export const QUERY_KEYS = {
-  AUTH: {
-    USER: ['auth', 'user'],
-    PROFILE: ['auth', 'profile'],
+  AUTH: ['auth'],
+  USER: ['user'],
+  USERS: ['users'],
+  USER_DETAIL: (id: string) => ['user', id],
+} as const;
+
+/**
+ * 페이지네이션 기본값
+ */
+export const PAGINATION = {
+  DEFAULT_PAGE: 1,
+  DEFAULT_LIMIT: 10,
+  MAX_LIMIT: 100,
+} as const;
+
+/**
+ * 파일 업로드 제한
+ */
+export const FILE_UPLOAD = {
+  MAX_SIZE: 10 * 1024 * 1024, // 10MB
+  ALLOWED_TYPES: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+  ALLOWED_EXTENSIONS: ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
+} as const;
+
+/**
+ * 폼 검증 규칙
+ */
+export const VALIDATION = {
+  EMAIL: {
+    MIN_LENGTH: 5,
+    MAX_LENGTH: 254,
+    PATTERN: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   },
-  USERS: {
-    LIST: (params?: Record<string, unknown>) => ['users', 'list', params],
-    DETAIL: (id: string) => ['users', 'detail', id],
+  PASSWORD: {
+    MIN_LENGTH: 8,
+    MAX_LENGTH: 128,
+    PATTERN: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
   },
+  NAME: {
+    MIN_LENGTH: 2,
+    MAX_LENGTH: 50,
+    PATTERN: /^[가-힣a-zA-Z\s]+$/,
+  },
+} as const;
+
+/**
+ * 애니메이션 지속시간
+ */
+export const ANIMATION = {
+  FAST: 150,
+  NORMAL: 300,
+  SLOW: 500,
+} as const;
+
+/**
+ * 브레이크포인트
+ */
+export const BREAKPOINTS = {
+  SM: 640,
+  MD: 768,
+  LG: 1024,
+  XL: 1280,
+  '2XL': 1536,
+} as const;
+
+/**
+ * 에러 메시지
+ */
+export const ERROR_MESSAGES = {
+  NETWORK_ERROR: '네트워크 연결을 확인해주세요.',
+  UNAUTHORIZED: '로그인이 필요합니다.',
+  FORBIDDEN: '접근 권한이 없습니다.',
+  NOT_FOUND: '요청한 리소스를 찾을 수 없습니다.',
+  SERVER_ERROR: '서버 오류가 발생했습니다.',
+  VALIDATION_ERROR: '입력값을 확인해주세요.',
+  UNKNOWN_ERROR: '알 수 없는 오류가 발생했습니다.',
+} as const;
+
+/**
+ * 성공 메시지
+ */
+export const SUCCESS_MESSAGES = {
+  SAVE_SUCCESS: '저장되었습니다.',
+  UPDATE_SUCCESS: '수정되었습니다.',
+  DELETE_SUCCESS: '삭제되었습니다.',
+  LOGIN_SUCCESS: '로그인되었습니다.',
+  LOGOUT_SUCCESS: '로그아웃되었습니다.',
+  REGISTER_SUCCESS: '회원가입이 완료되었습니다.',
+} as const;
+
+/**
+ * 앱 메타데이터
+ */
+export const APP_METADATA = {
+  NAME: 'Next.js Boilerplate',
+  DESCRIPTION: 'Modern Next.js boilerplate template with TypeScript, Tailwind CSS, and more',
+  VERSION: '1.0.0',
+  AUTHOR: 'Your Team',
+  KEYWORDS: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Boilerplate'],
 } as const;
 
 // 페이지 경로
@@ -98,25 +195,4 @@ export const REGEX_PATTERNS = {
   PHONE: /^01[0-9]-?[0-9]{4}-?[0-9]{4}$/,
   PASSWORD: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
   URL: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/,
-} as const;
-
-// 에러 메시지
-export const ERROR_MESSAGES = {
-  NETWORK_ERROR: '네트워크 연결을 확인해주세요.',
-  UNAUTHORIZED: '로그인이 필요합니다.',
-  FORBIDDEN: '접근 권한이 없습니다.',
-  NOT_FOUND: '요청한 리소스를 찾을 수 없습니다.',
-  SERVER_ERROR: '서버 오류가 발생했습니다.',
-  VALIDATION_ERROR: '입력값을 확인해주세요.',
-  UNKNOWN_ERROR: '알 수 없는 오류가 발생했습니다.',
-} as const;
-
-// 성공 메시지
-export const SUCCESS_MESSAGES = {
-  SAVE_SUCCESS: '성공적으로 저장되었습니다.',
-  DELETE_SUCCESS: '성공적으로 삭제되었습니다.',
-  UPDATE_SUCCESS: '성공적으로 수정되었습니다.',
-  LOGIN_SUCCESS: '로그인되었습니다.',
-  LOGOUT_SUCCESS: '로그아웃되었습니다.',
-  REGISTER_SUCCESS: '회원가입이 완료되었습니다.',
 } as const;

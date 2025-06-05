@@ -3,23 +3,21 @@ import '@testing-library/jest-dom';
 import { vi } from 'vitest';
 
 // Mock IntersectionObserver
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(global as any).IntersectionObserver = class IntersectionObserver {
+global.IntersectionObserver = class IntersectionObserver {
+  root = null;
+  rootMargin = '';
+  thresholds = [];
   constructor() {}
   disconnect() {}
   observe() {}
   unobserve() {}
-  root = null;
-  rootMargin = '';
-  thresholds = [];
   takeRecords() {
     return [];
   }
 };
 
 // Mock ResizeObserver
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(global as any).ResizeObserver = class ResizeObserver {
+global.ResizeObserver = class ResizeObserver {
   constructor() {}
   disconnect() {}
   observe() {}
@@ -29,7 +27,7 @@ import { vi } from 'vitest';
 // Mock matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: vi.fn().mockImplementation((query: string) => ({
+  value: vi.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -39,4 +37,16 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
+});
+
+// Mock scrollTo
+Object.defineProperty(window, 'scrollTo', {
+  writable: true,
+  value: vi.fn(),
+});
+
+// Mock HTMLElement.scrollIntoView
+Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+  writable: true,
+  value: vi.fn(),
 });

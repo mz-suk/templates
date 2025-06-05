@@ -1,143 +1,171 @@
+import { env } from '@/lib/env';
+
 /**
- * API 클라이언트 설정
- * 타입 안전한 API 호출과 에러 처리를 제공합니다.
+ * API 응답 타입
  */
-
-export class ApiError extends Error {
-  public status: number;
-  public data: unknown;
-
-  constructor(message: string, status: number, data?: unknown) {
-    super(message);
-    this.name = 'ApiError';
-    this.status = status;
-    this.data = data;
-  }
-}
-
-interface ApiResponse<T> {
+export interface ApiResponse<T = unknown> {
   data: T;
   message?: string;
   success: boolean;
 }
 
-interface ApiRequestConfig extends RequestInit {
-  params?: Record<string, string | number | boolean>;
+/**
+ * API 에러 타입
+ */
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    public status: number,
+    public response?: unknown
+  ) {
+    super(message);
+    this.name = 'ApiError';
+  }
 }
 
-class ApiClient {
-  private baseURL: string;
+/**
+ * API 클라이언트 설정
+ */
+const API_BASE_URL = env.NEXT_PUBLIC_API_BASE_URL || '/api';
 
-  constructor(baseURL: string) {
-    this.baseURL = baseURL;
-  }
+/**
+ * 기본 fetch 래퍼
+ */
+async function fetchApi<T>(
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<ApiResponse<T>> {
+  const url = `${API_BASE_URL}${endpoint}`;
+  
+  const defaultHeaders: HeadersInit = {
+    'Content-Type': 'application/json',
+  };
 
-  private async request<T>(
-    endpoint: string,
-    config: ApiRequestConfig = {}
-  ): Promise<ApiResponse<T>> {
-    const { params, ...fetchConfig } = config;
+  const config: RequestInit = {
+    ...options,
+    headers: {
+      ...defaultHeaders,
+      ...options.headers,
+    },
+  };
 
-    // URL 구성
-    const url = new URL(endpoint, this.baseURL);
-    if (params) {
-      Object.entries(params).forEach(([key, value]) => {
-        url.searchParams.append(key, String(value));
-      });
-    }
-
-    // 기본 헤더 설정
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-      ...fetchConfig.headers,
-    };
-
-    try {
-      const response = await fetch(url.toString(), {
-        ...fetchConfig,
-        headers,
-      });
-
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        throw new ApiError(
-          responseData.message || 'API 요청이 실패했습니다.',
-          response.status,
-          responseData
-        );
-      }
-
-      return responseData;
-    } catch (error) {
-      if (error instanceof ApiError) {
-        throw error;
-      }
-
+  try {
+    const response = await fetch(url, config);
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
       throw new ApiError(
-        error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.',
-        0
+        errorData.message || `HTTP ${response.status}: ${response.statusText}`,
+        response.status,
+        errorData
       );
     }
-  }
 
-  async get<T>(endpoint: string, config?: ApiRequestConfig): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, { ...config, method: 'GET' });
-  }
-
-  async post<T>(
-    endpoint: string,
-    data?: unknown,
-    config?: ApiRequestConfig
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
-      ...config,
-      method: 'POST',
-      body: data ? JSON.stringify(data) : undefined,
-    });
-  }
-
-  async put<T>(
-    endpoint: string,
-    data?: unknown,
-    config?: ApiRequestConfig
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
-      ...config,
-      method: 'PUT',
-      body: data ? JSON.stringify(data) : undefined,
-    });
-  }
-
-  async patch<T>(
-    endpoint: string,
-    data?: unknown,
-    config?: ApiRequestConfig
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
-      ...config,
-      method: 'PATCH',
-      body: data ? JSON.stringify(data) : undefined,
-    });
-  }
-
-  async delete<T>(endpoint: string, config?: ApiRequestConfig): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, { ...config, method: 'DELETE' });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    if (error instanceof ApiError) {
+      throw error;
+    }
+    
+    // 네트워크 에러 등
+    throw new ApiError(
+      error instanceof Error ? error.message : 'Unknown error occurred',
+      0
+    );
   }
 }
 
-// API 클라이언트 인스턴스 생성
-const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || '/api';
-export const apiClient = new ApiClient(baseURL);
+/**
+ * API 클라이언트 메서드들
+ */
+export const apiClient = {
+  get: <T>(endpoint: string, options?: RequestInit) =>
+    fetchApi<T>(endpoint, { ...options, method: 'GET' }),
 
-// 편의 함수들
-export const api = {
-  get: <T>(endpoint: string, config?: ApiRequestConfig) => apiClient.get<T>(endpoint, config),
-  post: <T>(endpoint: string, data?: unknown, config?: ApiRequestConfig) =>
-    apiClient.post<T>(endpoint, data, config),
-  put: <T>(endpoint: string, data?: unknown, config?: ApiRequestConfig) =>
-    apiClient.put<T>(endpoint, data, config),
-  patch: <T>(endpoint: string, data?: unknown, config?: ApiRequestConfig) =>
-    apiClient.patch<T>(endpoint, data, config),
-  delete: <T>(endpoint: string, config?: ApiRequestConfig) => apiClient.delete<T>(endpoint, config),
+  post: <T>(endpoint: string, data?: unknown, options?: RequestInit) =>
+    fetchApi<T>(endpoint, {
+      ...options,
+      method: 'POST',
+      body: data ? JSON.stringify(data) : undefined,
+    }),
+
+  put: <T>(endpoint: string, data?: unknown, options?: RequestInit) =>
+    fetchApi<T>(endpoint, {
+      ...options,
+      method: 'PUT',
+      body: data ? JSON.stringify(data) : undefined,
+    }),
+
+  patch: <T>(endpoint: string, data?: unknown, options?: RequestInit) =>
+    fetchApi<T>(endpoint, {
+      ...options,
+      method: 'PATCH',
+      body: data ? JSON.stringify(data) : undefined,
+    }),
+
+  delete: <T>(endpoint: string, options?: RequestInit) =>
+    fetchApi<T>(endpoint, { ...options, method: 'DELETE' }),
 };
+
+/**
+ * 인증이 필요한 API 호출을 위한 헬퍼
+ */
+export function createAuthenticatedClient(getToken: () => string | null) {
+  return {
+    get: <T>(endpoint: string, options?: RequestInit) => {
+      const token = getToken();
+      return apiClient.get<T>(endpoint, {
+        ...options,
+        headers: {
+          ...options?.headers,
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+      });
+    },
+
+    post: <T>(endpoint: string, data?: unknown, options?: RequestInit) => {
+      const token = getToken();
+      return apiClient.post<T>(endpoint, data, {
+        ...options,
+        headers: {
+          ...options?.headers,
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+      });
+    },
+
+    put: <T>(endpoint: string, data?: unknown, options?: RequestInit) => {
+      const token = getToken();
+      return apiClient.put<T>(endpoint, data, {
+        ...options,
+        headers: {
+          ...options?.headers,
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+      });
+    },
+
+    patch: <T>(endpoint: string, data?: unknown, options?: RequestInit) => {
+      const token = getToken();
+      return apiClient.patch<T>(endpoint, data, {
+        ...options,
+        headers: {
+          ...options?.headers,
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+      });
+    },
+
+    delete: <T>(endpoint: string, options?: RequestInit) => {
+      const token = getToken();
+      return apiClient.delete<T>(endpoint, {
+        ...options,
+        headers: {
+          ...options?.headers,
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+      });
+    },
+  };
+}
