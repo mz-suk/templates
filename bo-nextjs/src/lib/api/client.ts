@@ -31,12 +31,9 @@ const API_BASE_URL = env.NEXT_PUBLIC_API_BASE_URL || '/api';
 /**
  * 기본 fetch 래퍼
  */
-async function fetchApi<T>(
-  endpoint: string,
-  options: RequestInit = {}
-): Promise<ApiResponse<T>> {
+async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
   const url = `${API_BASE_URL}${endpoint}`;
-  
+
   const defaultHeaders: HeadersInit = {
     'Content-Type': 'application/json',
   };
@@ -51,7 +48,7 @@ async function fetchApi<T>(
 
   try {
     const response = await fetch(url, config);
-    
+
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       throw new ApiError(
@@ -67,12 +64,9 @@ async function fetchApi<T>(
     if (error instanceof ApiError) {
       throw error;
     }
-    
+
     // 네트워크 에러 등
-    throw new ApiError(
-      error instanceof Error ? error.message : 'Unknown error occurred',
-      0
-    );
+    throw new ApiError(error instanceof Error ? error.message : 'Unknown error occurred', 0);
   }
 }
 

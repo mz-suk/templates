@@ -52,4 +52,4 @@ interface LoadingSpinnerProps {
 
 export function LoadingSpinner({ size = 'md', className }: LoadingSpinnerProps) {
   return <Loading size={size} className={className} />;
-} 
+}

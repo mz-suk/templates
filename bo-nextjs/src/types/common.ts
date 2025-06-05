@@ -121,4 +121,4 @@ export type Language = 'ko' | 'en';
 /**
  * 환경 타입
  */
-export type Environment = 'development' | 'production' | 'test'; 
+export type Environment = 'development' | 'production' | 'test';
