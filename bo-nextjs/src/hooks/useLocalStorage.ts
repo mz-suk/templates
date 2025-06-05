@@ -3,10 +3,7 @@ import { useEffect, useState } from 'react';
 /**
  * 로컬 스토리지와 동기화되는 상태를 관리하는 훅
  */
-export function useLocalStorage<T>(
-  key: string,
-  initialValue: T
-): [T, (value: T | ((val: T) => T)) => void] {
+export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((val: T) => T)) => void] {
   // SSR 이슈를 방지하기 위해 초기 상태를 함수로 지연 초기화
   const [storedValue, setStoredValue] = useState<T>(() => {
     if (typeof window === 'undefined') {

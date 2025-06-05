@@ -4,9 +4,9 @@ module.exports = {
   singleQuote: true,
   tabWidth: 2,
   trailingComma: 'es5',
-  printWidth: 100,
+  printWidth: 120,
   endOfLine: 'lf',
-  plugins: ['@ianvs/prettier-plugin-sort-imports'],
+  plugins: ['@ianvs/prettier-plugin-sort-imports', 'prettier-plugin-tailwindcss'],
   importOrder: [
     '^(react/(.*)$)|^(react$)',
     '^(next/(.*)$)|^(next$)',
@@ -22,5 +22,5 @@ module.exports = {
     '^[./]',
   ],
   importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
-  importOrderTypeScriptVersion: '5.0.0',
+  importOrderTypeScriptVersion: '5.8.3',
 };

@@ -74,8 +74,7 @@ async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise
  * API 클라이언트 메서드들
  */
 export const apiClient = {
-  get: <T>(endpoint: string, options?: RequestInit) =>
-    fetchApi<T>(endpoint, { ...options, method: 'GET' }),
+  get: <T>(endpoint: string, options?: RequestInit) => fetchApi<T>(endpoint, { ...options, method: 'GET' }),
 
   post: <T>(endpoint: string, data?: unknown, options?: RequestInit) =>
     fetchApi<T>(endpoint, {
@@ -98,8 +97,7 @@ export const apiClient = {
       body: data ? JSON.stringify(data) : undefined,
     }),
 
-  delete: <T>(endpoint: string, options?: RequestInit) =>
-    fetchApi<T>(endpoint, { ...options, method: 'DELETE' }),
+  delete: <T>(endpoint: string, options?: RequestInit) => fetchApi<T>(endpoint, { ...options, method: 'DELETE' }),
 };
 
 /**

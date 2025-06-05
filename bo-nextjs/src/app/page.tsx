@@ -35,18 +35,17 @@ const features = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background min-h-screen">
       <Header />
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-16 md:py-24">
-        <div className="text-center space-y-6">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight">Next.js 보일러플레이트</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Next.js 15, React 19, TypeScript, Tailwind CSS 4.1로 구성된 현대적이고 확장 가능한 웹
-            애플리케이션 템플릿
+        <div className="space-y-6 text-center">
+          <h1 className="text-4xl font-bold tracking-tight md:text-6xl">Next.js 보일러플레이트</h1>
+          <p className="text-muted-foreground mx-auto max-w-2xl text-xl">
+            Next.js 15, React 19, TypeScript, Tailwind CSS 4.1로 구성된 현대적이고 확장 가능한 웹 애플리케이션 템플릿
           </p>
-          <div className="flex gap-4 justify-center flex-col sm:flex-row">
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Button size="lg" asChild>
               <Link href="/dashboard">
                 시작하기 <ArrowRight className="ml-2 h-4 w-4" />
@@ -63,18 +62,18 @@ export default function Home() {
 
       {/* Features Section */}
       <section className="container mx-auto px-4 py-16">
-        <div className="text-center space-y-4 mb-12">
+        <div className="mb-12 space-y-4 text-center">
           <h2 className="text-3xl font-bold">주요 기능</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-muted-foreground mx-auto max-w-2xl">
             현대적인 웹 개발을 위한 모든 도구와 설정이 포함되어 있습니다.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, index) => (
             <Card key={index} className="h-full">
               <CardHeader>
-                <feature.icon className="h-8 w-8 text-primary mb-2" />
+                <feature.icon className="text-primary mb-2 h-8 w-8" />
                 <CardTitle>{feature.title}</CardTitle>
               </CardHeader>
               <CardContent>
@@ -87,12 +86,12 @@ export default function Home() {
 
       {/* Tech Stack Section */}
       <section className="container mx-auto px-4 py-16">
-        <div className="text-center space-y-4 mb-12">
+        <div className="mb-12 space-y-4 text-center">
           <h2 className="text-3xl font-bold">기술 스택</h2>
           <p className="text-muted-foreground">검증된 최신 기술들로 구성된 강력한 개발 환경</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
           {[
             'Next.js 15',
             'React 19',
@@ -103,7 +102,7 @@ export default function Home() {
             'Radix UI',
             'Vitest',
           ].map((tech) => (
-            <div key={tech} className="p-4 rounded-lg border bg-card">
+            <div key={tech} className="bg-card rounded-lg border p-4">
               <p className="font-medium">{tech}</p>
             </div>
           ))}
@@ -112,15 +111,13 @@ export default function Home() {
 
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-16">
-        <Card className="text-center p-8">
+        <Card className="p-8 text-center">
           <CardHeader>
             <CardTitle className="text-2xl">지금 시작해보세요</CardTitle>
-            <CardDescription>
-              몇 분 안에 프로덕션 준비가 완료된 애플리케이션을 만들어보세요.
-            </CardDescription>
+            <CardDescription>몇 분 안에 프로덕션 준비가 완료된 애플리케이션을 만들어보세요.</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex gap-4 justify-center flex-col sm:flex-row">
+            <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <Button size="lg" asChild>
                 <Link href="/dashboard">대시보드 보기</Link>
               </Button>

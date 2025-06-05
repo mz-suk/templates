@@ -11,29 +11,20 @@ export default function Header() {
   const { sidebarCollapsed, toggleSidebar, user, isAuthenticated } = useAppStore();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <span className="hidden font-bold sm:inline-block">Next.js Boilerplate</span>
           </Link>
           <nav className="flex items-center gap-4 text-sm lg:gap-6">
-            <Link
-              href="/dashboard"
-              className="transition-colors hover:text-foreground/80 text-foreground/60"
-            >
+            <Link href="/dashboard" className="hover:text-foreground/80 text-foreground/60 transition-colors">
               Dashboard
             </Link>
-            <Link
-              href="/components"
-              className="transition-colors hover:text-foreground/80 text-foreground/60"
-            >
+            <Link href="/components" className="hover:text-foreground/80 text-foreground/60 transition-colors">
               Components
             </Link>
-            <Link
-              href="/examples"
-              className="transition-colors hover:text-foreground/80 text-foreground/60"
-            >
+            <Link href="/examples" className="hover:text-foreground/80 text-foreground/60 transition-colors">
               Examples
             </Link>
           </nav>
@@ -50,13 +41,11 @@ export default function Header() {
         </Button>
 
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <div className="w-full flex-1 md:w-auto md:flex-none">
-            {/* 검색 컴포넌트가 들어갈 자리 */}
-          </div>
+          <div className="w-full flex-1 md:w-auto md:flex-none">{/* 검색 컴포넌트가 들어갈 자리 */}</div>
           <nav className="flex items-center">
             {isAuthenticated ? (
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">안녕하세요, {user?.name}님</span>
+                <span className="text-muted-foreground text-sm">안녕하세요, {user?.name}님</span>
                 <Button variant="outline" size="sm">
                   로그아웃
                 </Button>

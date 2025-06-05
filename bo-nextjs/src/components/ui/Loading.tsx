@@ -40,7 +40,7 @@ export function LoadingScreen({ message = '로딩 중...', className }: LoadingS
   return (
     <div className={cn('flex min-h-screen flex-col items-center justify-center p-4', className)}>
       <Loading size="xl" />
-      <p className="mt-4 text-muted-foreground">{message}</p>
+      <p className="text-muted-foreground mt-4">{message}</p>
     </div>
   );
 }

@@ -49,8 +49,7 @@ export const useAppStore = create<AppState>()(
 
         setTheme: (theme) => set({ theme }, false, 'setTheme'),
 
-        toggleSidebar: () =>
-          set({ sidebarCollapsed: !get().sidebarCollapsed }, false, 'toggleSidebar'),
+        toggleSidebar: () => set({ sidebarCollapsed: !get().sidebarCollapsed }, false, 'toggleSidebar'),
 
         setLoading: (isLoading) => set({ isLoading }, false, 'setLoading'),
 
