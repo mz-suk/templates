@@ -51,7 +51,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <div className="flex gap-x-6 items-center">
+        <div className="flex gap-x-6 items-center group-data-[collapsible=icon]:hidden">
           <div className="w-14 h-14 bg-primary-500 rounded-md" />
           <div className="text-gray-900 text-2xl font-bold">Dabang</div>
         </div>
