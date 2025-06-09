@@ -1,7 +1,5 @@
+import LoginForm from "@/components/page/auth/loginForm";
+
 export default function Home() {
-  return (
-    <div>
-      <h1 className="text-accent-600">Hello World2</h1>
-    </div>
-  );
+  return <LoginForm />;
 }
