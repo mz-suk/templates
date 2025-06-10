@@ -12,7 +12,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "types": ["@testing-library/jest-dom"],
     "incremental": true,
     "plugins": [
       {

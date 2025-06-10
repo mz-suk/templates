@@ -1,5 +1,5 @@
 /** @type {import('prettier').Config} */
-module.exports = {
+const config = {
   semi: true,
   singleQuote: true,
   tabWidth: 2,
@@ -24,3 +24,5 @@ module.exports = {
   importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
   importOrderTypeScriptVersion: '5.8.3',
 };
+
+export default config;
