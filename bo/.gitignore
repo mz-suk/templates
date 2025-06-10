@@ -18,7 +18,7 @@ next-env.d.ts
 
 # IDE
 .idea
-.vscode
+# .vscode
 *.sublime-project
 *.sublime-workspace
 
