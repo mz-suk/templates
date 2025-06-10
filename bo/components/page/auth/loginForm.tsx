@@ -36,7 +36,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-[100%] flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-[var(--color-white)] p-10 rounded-3xl shadow-md">
         <h1 className="text-3xl font-bold text-[var(--color-gray-900)] mb-3">
           Back Office 로그인

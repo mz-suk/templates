@@ -1,7 +1,7 @@
 // src/lib/services/auth/login.ts
 
 import { z } from "zod";
-import { loginSchema, type LoginInput } from "@/lib/schema";
+import { loginSchema, type LoginFormValues } from "@/lib/schema/auth";
 import { apiRequest } from "@/lib/apiClient";
 
 interface LoginResponse {
@@ -9,14 +9,14 @@ interface LoginResponse {
   [key: string]: unknown;
 }
 
-export async function login(input: LoginInput) {
+export async function login(input: LoginFormValues) {
   try {
     const validated = loginSchema.parse(input);
 
     const response = await apiRequest<LoginResponse>("/auth", {
       method: "POST",
       body: JSON.stringify({
-        email: validated.email,
+        userName: validated.userName,
         password: validated.password,
       }),
     });

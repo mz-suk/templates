@@ -20,7 +20,7 @@ const data = {
   navMain: [
     {
       title: "대시보드",
-      url: "/",
+      url: "/dashboard",
       icon: LayoutDashboard,
       isActive: true,
     },
@@ -32,15 +32,7 @@ const data = {
       items: [
         {
           title: "상품 목록",
-          url: "/products/test",
-        },
-        {
-          title: "Manage Products",
-          url: "/products/manage",
-        },
-        {
-          title: "Settings",
-          url: "/products/settings",
+          url: "/products/list",
         },
       ],
     },
