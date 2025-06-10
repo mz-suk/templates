@@ -1,5 +1,6 @@
-import { cn } from "@/lib/utils";
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
+
+import { cn } from '@/lib/utils';
 
 interface TableHeaderCellProps {
   /** 헤더 셀에 표시될 내용 */
@@ -11,17 +12,9 @@ interface TableHeaderCellProps {
 /**
  * 테이블의 헤더 셀(th) 컴포넌트입니다.
  */
-export const TableHeaderCell = ({
-  children,
-  className,
-}: TableHeaderCellProps) => {
+export const TableHeaderCell = ({ children, className }: TableHeaderCellProps) => {
   return (
-    <th
-      className={cn(
-        "bg-gray-100 p-3 text-left align-middle text-sm font-medium text-gray-800",
-        className
-      )}
-    >
+    <th className={cn('bg-gray-100 p-3 text-left align-middle text-sm font-medium text-gray-800', className)}>
       {children}
     </th>
   );

@@ -1,17 +1,11 @@
-"use client";
+'use client';
 
-import { ChevronRight, type LucideIcon } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { ChevronRight, type LucideIcon } from 'lucide-react';
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -21,7 +15,8 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar';
+import { cn } from '@/lib/utils';
 
 export function NavMain({
   items,
@@ -38,8 +33,8 @@ export function NavMain({
   }[];
 }) {
   const pathname = usePathname();
-  const inactiveTextClass = "text-[#737791] font-bold text-[18px]";
-  const activeTextClass = "bg-primary-500 text-white font-bold text-[18px]";
+  const inactiveTextClass = 'text-[#737791] font-bold text-[18px]';
+  const activeTextClass = 'bg-primary-500 text-white font-bold text-[18px]';
 
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};
@@ -63,9 +58,7 @@ export function NavMain({
         {items.map((item) => {
           const isOpen = openMenus[item.url];
           const hasChildren = item.items?.length;
-          const isParentActive = hasChildren
-            ? pathname.startsWith(item.url)
-            : pathname === item.url;
+          const isParentActive = hasChildren ? pathname.startsWith(item.url) : pathname === item.url;
 
           return (
             <SidebarMenuItem key={item.title}>
@@ -79,25 +72,22 @@ export function NavMain({
                     <SidebarMenuButton
                       tooltip={item.title}
                       className={cn(
-                        "flex items-center justify-between w-full rounded-md transition cursor-pointer",
-                        "h-[50px] px-4 py-2",
+                        'flex w-full cursor-pointer items-center justify-between rounded-md transition',
+                        'h-[50px] px-4 py-2',
                         isParentActive ? activeTextClass : inactiveTextClass
                       )}
                     >
                       <div className="flex items-center gap-[24px]">
-                        {item.icon && <item.icon className="w-6 h-6" />}
+                        {item.icon && <item.icon className="h-6 w-6" />}
                         <span>{item.title}</span>
                       </div>
                       <ChevronRight
-                        className={cn(
-                          "ml-auto transition-transform duration-300",
-                          isOpen && "rotate-90"
-                        )}
+                        className={cn('ml-auto transition-transform duration-300', isOpen && 'rotate-90')}
                       />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
 
-                  <CollapsibleContent className="overflow-hidden transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                  <CollapsibleContent className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden transition-all">
                     <SidebarMenuSub>
                       {item.items?.map((subItem) => {
                         // const isSubActive = pathname === subItem.url;
@@ -107,8 +97,8 @@ export function NavMain({
                               <Link
                                 href={subItem.url}
                                 className={cn(
-                                  "block rounded-md transition text-sm cursor-pointer",
-                                  "h-[50px] px-4 py-2 flex items-center"
+                                  'block cursor-pointer rounded-md text-sm transition',
+                                  'flex h-[50px] items-center px-4 py-2'
                                 )}
                               >
                                 <span>{subItem.title}</span>
@@ -125,16 +115,13 @@ export function NavMain({
                   asChild
                   tooltip={item.title}
                   className={cn(
-                    "flex items-center w-full rounded-md transition cursor-pointer",
-                    "h-[50px] px-4 py-2 gap-[24px]",
+                    'flex w-full cursor-pointer items-center rounded-md transition',
+                    'h-[50px] gap-[24px] px-4 py-2',
                     isParentActive ? activeTextClass : inactiveTextClass
                   )}
                 >
-                  <Link
-                    href={item.url}
-                    className="flex items-center gap-[24px] w-full"
-                  >
-                    {item.icon && <item.icon className="w-6 h-6" />}
+                  <Link href={item.url} className="flex w-full items-center gap-[24px]">
+                    {item.icon && <item.icon className="h-6 w-6" />}
                     <span>{item.title}</span>
                   </Link>
                 </SidebarMenuButton>

@@ -1,7 +1,8 @@
 // src/components/common/Table/TableDataCell.tsx
 
-import { cn } from "@/lib/utils";
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
+
+import { cn } from '@/lib/utils';
 
 interface TableDataCellProps {
   /** 데이터 셀에 표시될 내용 (Input, Select 등 다양한 컴포넌트 포함 가능) */
@@ -15,16 +16,9 @@ interface TableDataCellProps {
 /**
  * 테이블의 데이터 셀(td) 컴포넌트입니다.
  */
-export const TableDataCell = ({
-  children,
-  className,
-  colSpan,
-}: TableDataCellProps) => {
+export const TableDataCell = ({ children, className, colSpan }: TableDataCellProps) => {
   return (
-    <td
-      className={cn("p-3 align-top border-l border-gray-200", className)}
-      colSpan={colSpan}
-    >
+    <td className={cn('border-l border-gray-200 p-3 align-top', className)} colSpan={colSpan}>
       {children}
     </td>
   );
