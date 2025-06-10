@@ -78,19 +78,21 @@ export function DataTable<TData, TValue>({
 
       <div className="rounded-md border">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-gray-100">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
+                {headerGroup.headers.map((header, index) => (
                   <TableHead
                     key={header.id}
                     // 정렬 가능한 헤더에 클릭 이벤트 추가
                     onClick={header.column.getCanSort() ? () => header.column.toggleSorting() : undefined}
-                    className={`cursor-pointer select-none ${
+                    className={` ${index !== 0 ? 'border-l border-gray-300' : ''} cursor-pointer ${
                       header.column.getIsSorted() ? 'text-blue-600' : 'text-gray-600'
                     }`}
                   >
-                    {flexRender(header.column.columnDef.header, header.getContext())}
+                    <div className="flex items-center justify-center">
+                      {flexRender(header.column.columnDef.header, header.getContext())}
+                    </div>
                   </TableHead>
                 ))}
               </TableRow>
@@ -100,8 +102,12 @@ export function DataTable<TData, TValue>({
             {data.length > 0 ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                  {row.getVisibleCells().map((cell, index) => (
+                    <TableCell className={index !== 0 ? 'border-l border-gray-300' : ''} key={cell.id}>
+                      <div className={index === 0 ? 'flex items-center justify-center' : ''}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </div>
+                    </TableCell>
                   ))}
                 </TableRow>
               ))

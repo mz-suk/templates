@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
@@ -19,6 +21,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { productSchema, type ProductFormValues } from '@/lib/schema/product';
 
 export default function ProductCreate() {
+  const router = useRouter();
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -204,7 +207,7 @@ export default function ProductCreate() {
           </TableContainer>
 
           <div className="flex justify-center space-x-2">
-            <Button size="lg" type="button" variant="outline">
+            <Button size="lg" type="button" variant="outline" onClick={() => router.push('/products/list')}>
               취소
             </Button>
             <Button size="lg" type="submit">
