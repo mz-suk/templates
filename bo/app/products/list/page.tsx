@@ -1,11 +1,17 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
+import { useProductList } from '@/services/product/list';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { OnChangeFn, SortingState } from '@tanstack/react-table';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { DataTable } from '@/components/common/data-table/data-table';
+import SkeletonTable from '@/components/common/data-table/skeleton-table';
 import { TableContainer, TableDataCell, TableHeaderCell, TableRow } from '@/components/common/table';
+import { columns } from '@/components/page/product/columns';
 // shadcn/ui 컴포넌트
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -13,32 +19,46 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-// Zod 스키마 (위에서 정의)
-const formSchema = z.object({
-  category1: z.string(),
-  category2: z.string(),
-  showRecommended: z.object({
-    all: z.boolean(),
-    exhibited: z.boolean(),
-    notExhibited: z.boolean(),
-  }),
-  showLuxury: z.object({
-    all: z.boolean(),
-    exhibited: z.boolean(),
-    notExhibited: z.boolean(),
-  }),
-  dateType: z.string(),
-  startDate: z.string(),
-  endDate: z.string(),
-  searchType: z.string(),
-  searchKeyword: z.string().max(50).optional(),
-});
+type FormValues = {
+  category1: string;
+  category2: string;
+  showRecommended: { all: boolean; exhibited: boolean; notExhibited: boolean };
+  showLuxury: { all: boolean; exhibited: boolean; notExhibited: boolean };
+  dateType: string;
+  startDate: string;
+  endDate: string;
+  searchType: string;
+  searchKeyword: string;
+};
 
-type FormValues = z.infer<typeof formSchema>;
+type Post = {
+  id: number;
+  title: string;
+  body: string;
+  userId: number;
+};
+
+const LIMIT = 10;
+const TOTAL_COUNT = 200;
 
 export default function ProductList() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sorting, setSorting] = useState<SortingState>([]);
+
+  const handleSortingChange: OnChangeFn<SortingState> = (updaterOrValue) => {
+    const newSorting = typeof updaterOrValue === 'function' ? updaterOrValue(sorting) : updaterOrValue;
+    setSorting(newSorting);
+  };
+
+  const { data, isLoading, isError, isFetching } = useProductList({
+    page: currentPage,
+    limit: LIMIT,
+    sorting,
+  });
+
+  if (isError) return <div>데이터 로딩 오류</div>;
+  const showSkeleton = isLoading || (!data && isFetching);
   const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
     defaultValues: {
       category1: 'all',
       category2: 'all',
@@ -230,6 +250,24 @@ export default function ProductList() {
           <Link href="/products/create">상품 등록</Link>
         </Button>
       </div>
+
+      {showSkeleton ? (
+        <SkeletonTable />
+      ) : (
+        <DataTable
+          columns={columns}
+          data={data ?? []}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          totalCount={TOTAL_COUNT}
+          pageSize={LIMIT}
+          sorting={sorting}
+          onSortingChange={handleSortingChange}
+          showGlobalFilter
+          showPagination
+          isLoading={isLoading || isFetching}
+        />
+      )}
     </div>
   );
 }

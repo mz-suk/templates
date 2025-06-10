@@ -1,5 +1,5 @@
 // src/lib/api/client.ts
-const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
+const baseURL = process.env.NEXT_PUBLIC_API_URL || 'https://jsonplaceholder.typicode.com';
 
 const getHeaders = () => {
   const headers: HeadersInit = {

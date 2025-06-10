@@ -1,27 +1,21 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   ColumnDef,
-  SortingState,
-  OnChangeFn,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  OnChangeFn,
+  SortingState,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import SkeletonTable from './skeleton-table';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -91,25 +85,12 @@ export function DataTable<TData, TValue>({
                   <TableHead
                     key={header.id}
                     // 정렬 가능한 헤더에 클릭 이벤트 추가
-                    onClick={
-                      header.column.getCanSort()
-                        ? () => header.column.toggleSorting()
-                        : undefined
-                    }
+                    onClick={header.column.getCanSort() ? () => header.column.toggleSorting() : undefined}
                     className={`cursor-pointer select-none ${
-                      header.column.getIsSorted()
-                        ? "text-blue-600"
-                        : "text-gray-600"
+                      header.column.getIsSorted() ? 'text-blue-600' : 'text-gray-600'
                     }`}
                   >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                    {{
-                      asc: " 🔼",
-                      desc: " 🔽",
-                    }[header.column.getIsSorted() as string] ?? null}
+                    {flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
               </TableRow>
@@ -118,26 +99,15 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {data.length > 0 ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
+                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
+                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   데이터가 없습니다.
                 </TableCell>
               </TableRow>
@@ -145,13 +115,15 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-
       {showPagination && (
         <div className="flex items-center justify-end space-x-2">
-          <div className="flex-1 text-sm text-muted-foreground">
+          <div className="text-muted-foreground text-sm">
             페이지 {currentPage} / {Math.ceil(totalCount / pageSize)}
           </div>
-          <div className="space-x-2">
+          <div className="flex-1 justify-center space-x-2">
+            <Button variant="outline" size="sm" onClick={() => handlePageChange(1)} disabled={currentPage === 1}>
+              처음
+            </Button>
             <Button
               variant="outline"
               size="sm"
@@ -167,6 +139,14 @@ export function DataTable<TData, TValue>({
               disabled={currentPage === Math.ceil(totalCount / pageSize)}
             >
               다음
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handlePageChange(Math.ceil(totalCount / pageSize))}
+              disabled={currentPage === Math.ceil(totalCount / pageSize)}
+            >
+              마지막
             </Button>
           </div>
         </div>
