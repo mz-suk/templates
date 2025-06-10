@@ -1,16 +1,11 @@
-"use client";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+
+import { TableContainer, TableDataCell, TableHeaderCell, TableRow } from '@/components/common/table';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
@@ -18,42 +13,33 @@ import {
   FormItem,
   FormLabel,
   FormMessage, // FormMessage를 사용해 에러를 표시합니다.
-} from "@/components/ui/form";
-import {
-  TableContainer,
-  TableDataCell,
-  TableHeaderCell,
-  TableRow,
-} from "@/components/common/table";
-import { type ProductFormValues, productSchema } from "@/lib/schema/product";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { productSchema, type ProductFormValues } from '@/lib/schema/product';
 
 export default function ProductCreate() {
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
     defaultValues: {
-      category1: "", // 빈 값으로 시작하여 필수 선택 에러 확인
-      category2: "", // 빈 값으로 시작하여 필수 선택 에러 확인
+      category1: '', // 빈 값으로 시작하여 필수 선택 에러 확인
+      category2: '', // 빈 값으로 시작하여 필수 선택 에러 확인
       showRecommended: { all: true, exhibited: true, notExhibited: true },
       showLuxury: { all: true, exhibited: true, notExhibited: false },
-      dateType: "regDate",
-      startDate: "2025-06-10",
-      endDate: "2025-06-17",
-      searchType: "none",
-      searchKeyword: "",
+      dateType: 'regDate',
+      startDate: '2025-06-10',
+      endDate: '2025-06-17',
+      searchType: 'none',
+      searchKeyword: '',
     },
   });
 
   function onSubmit(data: ProductFormValues) {
-    console.log("Form submitted:", data);
+    console.log('Form submitted:', data);
     // TODO: API 호출 등 데이터 처리 로직 구현
   }
 
-  const colWidths = [
-    "w-40",
-    "w-[calc(50%-8rem)]",
-    "w-40",
-    "w-[calc(50%-8rem)]",
-  ];
+  const colWidths = ['w-40', 'w-[calc(50%-8rem)]', 'w-40', 'w-[calc(50%-8rem)]'];
 
   return (
     <div>
@@ -69,10 +55,7 @@ export default function ProductCreate() {
                   name="category1"
                   render={({ field }) => (
                     <FormItem>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger className="w-[200px]">
                             <SelectValue placeholder="품목 선택" />
@@ -96,10 +79,7 @@ export default function ProductCreate() {
                   name="category2"
                   render={({ field }) => (
                     <FormItem>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger className="w-[200px]">
                             <SelectValue placeholder="품목 선택" />
@@ -129,10 +109,7 @@ export default function ProductCreate() {
                     render={({ field }) => (
                       <FormItem className="flex items-center space-x-2">
                         <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
+                          <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                         </FormControl>
                         <FormLabel className="font-normal">전체</FormLabel>
                       </FormItem>
@@ -147,17 +124,14 @@ export default function ProductCreate() {
             <TableRow>
               <TableHeaderCell>기간</TableHeaderCell>
               <TableDataCell className="border-l-0" colSpan={3}>
-                <div className="flex gap-2 items-center flex-wrap">
+                <div className="flex flex-wrap items-center gap-2">
                   {/* 3. 각 FormField를 FormItem으로 감싸고 FormMessage 추가 */}
                   <FormField
                     control={form.control}
                     name="dateType"
                     render={({ field }) => (
                       <FormItem>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger className="w-[120px]">
                               <SelectValue />
@@ -197,14 +171,9 @@ export default function ProductCreate() {
                     )}
                   />
                 </div>
-                <div className="flex gap-2 mt-2 flex-wrap">
-                  {["오늘", "7일", "1개월", "3개월", "1년"].map((label) => (
-                    <Button
-                      key={label}
-                      type="button"
-                      variant={"outline"}
-                      size="sm"
-                    >
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {['오늘', '7일', '1개월', '3개월', '1년'].map((label) => (
+                    <Button key={label} type="button" variant={'outline'} size="sm">
                       {label}
                     </Button>
                   ))}
@@ -216,17 +185,14 @@ export default function ProductCreate() {
             <TableRow>
               <TableHeaderCell>검색어</TableHeaderCell>
               <TableDataCell className="border-l-0" colSpan={3}>
-                <div className="flex gap-2 items-center flex-wrap">
+                <div className="flex flex-wrap items-center gap-2">
                   <FormField
                     control={form.control}
                     name="searchKeyword"
                     render={({ field }) => (
                       <FormItem className="flex-1">
                         <FormControl>
-                          <Input
-                            placeholder="최대 50자까지 입력 가능합니다."
-                            {...field}
-                          />
+                          <Input placeholder="최대 50자까지 입력 가능합니다." {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

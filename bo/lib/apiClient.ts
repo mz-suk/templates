@@ -1,13 +1,13 @@
 // src/lib/api/client.ts
-const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
+const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
 
 const getHeaders = () => {
   const headers: HeadersInit = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   };
 
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem("token");
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('token');
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     }
@@ -16,10 +16,7 @@ const getHeaders = () => {
   return headers;
 };
 
-export async function apiRequest<T = unknown>(
-  endpoint: string,
-  options: RequestInit = {}
-): Promise<T> {
+export async function apiRequest<T = unknown>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const response = await fetch(`${baseURL}${endpoint}`, {
     ...options,
     headers: {
@@ -30,9 +27,9 @@ export async function apiRequest<T = unknown>(
 
   if (!response.ok) {
     if (response.status === 401) {
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("token");
-        window.location.href = "/login";
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
       }
     }
     throw new Error(`HTTP error! status: ${response.status}`);

@@ -1,11 +1,8 @@
-import type { Metadata } from "next";
-import "@/styles/globals.css";
+import type { Metadata } from 'next';
 
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import '@/styles/globals.css';
+
+import { AppSidebar } from '@/components/common/sidebar/appSidebar';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,14 +10,14 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
-import { AppSidebar } from "@/components/common/sidebar/appSidebar";
+} from '@/components/ui/breadcrumb';
+import { Separator } from '@/components/ui/separator';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
-  generator: "v0.dev",
+  title: 'v0 App',
+  description: 'Created with v0',
+  generator: 'v0.dev',
 };
 
 export default function RootLayout({
@@ -42,9 +39,7 @@ export default function RootLayout({
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem className="hidden md:block">
-                      <BreadcrumbLink href="#">
-                        Building Your Application
-                      </BreadcrumbLink>
+                      <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator className="hidden md:block" />
                     <BreadcrumbItem>
@@ -56,9 +51,7 @@ export default function RootLayout({
             </header>
 
             {/* 각 페이지 컨텐츠 */}
-            <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-              {children}
-            </div>
+            <div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
           </SidebarInset>
         </SidebarProvider>
       </body>

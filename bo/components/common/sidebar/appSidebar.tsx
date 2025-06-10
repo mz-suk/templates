@@ -1,38 +1,34 @@
-"use client";
-import { LayoutDashboard, ShoppingBag } from "lucide-react";
+'use client';
 
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarRail,
-} from "@/components/ui/sidebar";
-import { NavMain } from "./navMain";
+import { LayoutDashboard, ShoppingBag } from 'lucide-react';
+
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '@/components/ui/sidebar';
+
+import { NavMain } from './navMain';
 
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: 'shadcn',
+    email: 'm@example.com',
+    avatar: '/avatars/shadcn.jpg',
   },
 
   navMain: [
     {
-      title: "대시보드",
-      url: "/dashboard",
+      title: '대시보드',
+      url: '/dashboard',
       icon: LayoutDashboard,
       isActive: true,
     },
     {
-      title: "상품관리",
-      url: "/products",
+      title: '상품관리',
+      url: '/products',
       icon: ShoppingBag,
       isActive: true,
       items: [
         {
-          title: "상품 목록",
-          url: "/products/list",
+          title: '상품 목록',
+          url: '/products/list',
         },
       ],
     },
@@ -43,9 +39,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <div className="flex gap-x-6 items-center group-data-[collapsible=icon]:hidden">
-          <div className="w-14 h-14 bg-primary-500 rounded-md" />
-          <div className="text-gray-900 text-2xl font-bold">Dabang</div>
+        <div className="flex items-center gap-x-6 group-data-[collapsible=icon]:hidden">
+          <div className="bg-primary-500 h-14 w-14 rounded-md" />
+          <div className="text-2xl font-bold text-gray-900">Dabang</div>
         </div>
       </SidebarHeader>
       <SidebarContent>

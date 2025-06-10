@@ -1,36 +1,17 @@
-"use client";
+'use client';
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import Link from 'next/link';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
+import { TableContainer, TableDataCell, TableHeaderCell, TableRow } from '@/components/common/table';
 // shadcn/ui 컴포넌트
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  TableContainer,
-  TableDataCell,
-  TableHeaderCell,
-  TableRow,
-} from "@/components/common/table";
-import Link from "next/link";
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 // Zod 스키마 (위에서 정의)
 const formSchema = z.object({
@@ -59,29 +40,24 @@ export default function ProductList() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      category1: "all",
-      category2: "all",
+      category1: 'all',
+      category2: 'all',
       showRecommended: { all: true, exhibited: true, notExhibited: true },
       showLuxury: { all: true, exhibited: true, notExhibited: false },
-      dateType: "regDate",
-      startDate: "2025-06-03",
-      endDate: "2025-06-10",
-      searchType: "none",
-      searchKeyword: "",
+      dateType: 'regDate',
+      startDate: '2025-06-03',
+      endDate: '2025-06-10',
+      searchType: 'none',
+      searchKeyword: '',
     },
   });
 
   function onSubmit(data: FormValues) {
-    console.log("Form submitted:", data);
+    console.log('Form submitted:', data);
     // TODO: API 호출 등 데이터 처리 로직 구현
   }
 
-  const colWidths = [
-    "w-40",
-    "w-[calc(50%-8rem)]",
-    "w-40",
-    "w-[calc(50%-8rem)]",
-  ];
+  const colWidths = ['w-40', 'w-[calc(50%-8rem)]', 'w-40', 'w-[calc(50%-8rem)]'];
 
   return (
     <div>
@@ -97,10 +73,7 @@ export default function ProductList() {
                   name="category1"
                   render={({ field }) => (
                     <FormItem>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger className="w-[200px]">
                             <SelectValue placeholder="전체" />
@@ -124,10 +97,7 @@ export default function ProductList() {
                   name="category1"
                   render={({ field }) => (
                     <FormItem>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger className="w-[200px]">
                             <SelectValue placeholder="전체" />
@@ -157,10 +127,7 @@ export default function ProductList() {
                     render={({ field }) => (
                       <FormItem className="flex items-center space-x-2">
                         <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
+                          <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                         </FormControl>
                         <FormLabel className="font-normal">전체</FormLabel>
                       </FormItem>
@@ -175,15 +142,12 @@ export default function ProductList() {
             <TableRow>
               <TableHeaderCell>기간</TableHeaderCell>
               <TableDataCell className="border-l-0" colSpan={3}>
-                <div className="flex gap-2 items-center flex-wrap">
+                <div className="flex flex-wrap items-center gap-2">
                   <FormField
                     control={form.control}
                     name="dateType"
                     render={({ field }) => (
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <SelectTrigger className="w-[120px]">
                           <SelectValue />
                         </SelectTrigger>
@@ -196,27 +160,18 @@ export default function ProductList() {
                   <FormField
                     control={form.control}
                     name="startDate"
-                    render={({ field }) => (
-                      <Input type="date" {...field} className="w-auto" />
-                    )}
+                    render={({ field }) => <Input type="date" {...field} className="w-auto" />}
                   />
                   <span>~</span>
                   <FormField
                     control={form.control}
                     name="endDate"
-                    render={({ field }) => (
-                      <Input type="date" {...field} className="w-auto" />
-                    )}
+                    render={({ field }) => <Input type="date" {...field} className="w-auto" />}
                   />
                 </div>
-                <div className="flex gap-2 mt-2 flex-wrap">
-                  {["오늘", "7일", "1개월", "3개월", "1년"].map((label) => (
-                    <Button
-                      key={label}
-                      type="button"
-                      variant={"outline"}
-                      size="sm"
-                    >
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {['오늘', '7일', '1개월', '3개월', '1년'].map((label) => (
+                    <Button key={label} type="button" variant={'outline'} size="sm">
                       {label}
                     </Button>
                   ))}
@@ -228,15 +183,12 @@ export default function ProductList() {
             <TableRow>
               <TableHeaderCell>검색어</TableHeaderCell>
               <TableDataCell className="border-l-0" colSpan={3}>
-                <div className="flex gap-2 items-center flex-wrap">
+                <div className="flex flex-wrap items-center gap-2">
                   <FormField
                     control={form.control}
                     name="searchType"
                     render={({ field }) => (
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <SelectTrigger className="w-[150px]">
                           <SelectValue />
                         </SelectTrigger>
@@ -253,10 +205,7 @@ export default function ProductList() {
                     render={({ field }) => (
                       <FormItem className="flex-1">
                         <FormControl>
-                          <Input
-                            placeholder="최대 50개까지 입력 가능합니다."
-                            {...field}
-                          />
+                          <Input placeholder="최대 50개까지 입력 가능합니다." {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
