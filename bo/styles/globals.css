@@ -1,9 +1,11 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  /* --spacing: 0.1rem; */
+
   --color-primary-50: #f2f2ff;
   --color-primary-100: #e2e3ff;
   --color-primary-200: #c9cbff;
@@ -173,9 +175,10 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /* html {
+    @apply text-[0.625em];
+  } */
   body {
     @apply bg-background text-foreground;
   }
 }
-
- 

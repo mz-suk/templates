@@ -1,7 +1,9 @@
 // app/layout.tsx
-import type { Metadata } from "next";
-import "@/styles/globals.css";
-import { ClientProviders } from "./providers";
+import type { Metadata } from 'next';
+
+import '@/styles/globals.css';
+
+import { ClientProviders } from './providers';
 
 import '@/styles/globals.css';
 
@@ -43,9 +45,7 @@ export default function RootLayout({
                   <Breadcrumb>
                     <BreadcrumbList>
                       <BreadcrumbItem className="hidden md:block">
-                        <BreadcrumbLink href="#">
-                          Building Your Application
-                        </BreadcrumbLink>
+                        <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
                       </BreadcrumbItem>
                       <BreadcrumbSeparator className="hidden md:block" />
                       <BreadcrumbItem>
@@ -57,9 +57,7 @@ export default function RootLayout({
               </header>
 
               {/* 각 페이지 컨텐츠 */}
-              <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                {children}
-              </div>
+              <div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
             </SidebarInset>
           </SidebarProvider>
         </ClientProviders>
