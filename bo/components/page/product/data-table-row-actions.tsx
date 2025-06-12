@@ -20,6 +20,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
   // 여기서 row.original 을 통해 실제 데이터에 접근할 수 있습니다.
   // const task = row.original
 
+  console.log('row', row);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
+import { loginAction } from '@/app/(public)/(auth)/actions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -12,6 +13,11 @@ import { Input } from '@/components/ui/input';
 import { LoginFormValues, loginSchema } from '@/lib/schema/auth';
 
 const LoginForm = () => {
+  // 1. 서버 액션 처리 상태 관리를 위한 useTransition
+  const [isPending, startTransition] = useTransition();
+  // 2. 서버로부터 받은 에러 메시지 상태
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -21,11 +27,41 @@ const LoginForm = () => {
     },
   });
 
+  // 3. 컴포넌트 마운트 시 localStorage에서 저장된 아이디 불러오기
+  useEffect(() => {
+    const savedId = localStorage.getItem('savedId');
+    if (savedId) {
+      form.setValue('userName', savedId);
+      form.setValue('saveId', true);
+    }
+  }, [form]);
+
   const [showPassword, setShowPassword] = useState(false);
 
+  // 4. 폼 제출 시 실행될 함수
   const onSubmit = (data: LoginFormValues) => {
-    console.log('Form Submitted:', data);
-    // localStorage.setItem("savedId", data.saveId ? data.userName : "");
+    setErrorMessage(null); // 이전 에러 메시지 초기화
+
+    // 아이디 저장 로직 처리
+    if (data.saveId) {
+      localStorage.setItem('savedId', data.userName);
+    } else {
+      localStorage.removeItem('savedId');
+    }
+
+    // FormData 객체 생성
+    const formData = new FormData();
+    formData.append('userName', data.userName);
+    formData.append('password', data.password);
+
+    // 5. 서버 액션 실행 (startTransition으로 래핑)
+    startTransition(async () => {
+      const result = await loginAction(null, formData);
+      if (!result.success) {
+        setErrorMessage(result.message);
+      }
+      // 성공 시에는 loginAction 내부에서 redirect 되므로 별도 처리 불필요
+    });
   };
 
   return (
@@ -106,13 +142,17 @@ const LoginForm = () => {
               )}
             />
 
+            {/* 6. 서버 에러 메시지 표시 */}
+            {errorMessage && <p className="text-sm font-medium text-red-500">{errorMessage}</p>}
+
             {/* 로그인 버튼 */}
             <Button
               type="submit"
               size="lg"
               className="w-full rounded-lg bg-[var(--color-button-bg)] font-semibold text-black transition-all hover:bg-[var(--color-button-hover-bg)]"
+              disabled={isPending} // 7. 처리 중일 때 버튼 비활성화
             >
-              로그인
+              {isPending ? '로그인 중...' : '로그인'}
             </Button>
           </form>
         </Form>

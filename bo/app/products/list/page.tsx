@@ -3,10 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useProductList } from '@/services/product/list';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { OnChangeFn, SortingState } from '@tanstack/react-table';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { DataTable } from '@/components/common/data-table/data-table';
 import SkeletonTable from '@/components/common/data-table/skeleton-table';
@@ -31,19 +29,26 @@ type FormValues = {
   searchKeyword: string;
 };
 
-type Post = {
-  id: number;
-  title: string;
-  body: string;
-  userId: number;
-};
-
 const LIMIT = 10;
 const TOTAL_COUNT = 200;
 
 export default function ProductList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [sorting, setSorting] = useState<SortingState>([]);
+
+  const form = useForm<FormValues>({
+    defaultValues: {
+      category1: 'all',
+      category2: 'all',
+      showRecommended: { all: true, exhibited: true, notExhibited: true },
+      showLuxury: { all: true, exhibited: true, notExhibited: false },
+      dateType: 'regDate',
+      startDate: '2025-06-03',
+      endDate: '2025-06-10',
+      searchType: 'none',
+      searchKeyword: '',
+    },
+  });
 
   const handleSortingChange: OnChangeFn<SortingState> = (updaterOrValue) => {
     const newSorting = typeof updaterOrValue === 'function' ? updaterOrValue(sorting) : updaterOrValue;
@@ -58,19 +63,6 @@ export default function ProductList() {
 
   if (isError) return <div>데이터 로딩 오류</div>;
   const showSkeleton = isLoading || (!data && isFetching);
-  const form = useForm<FormValues>({
-    defaultValues: {
-      category1: 'all',
-      category2: 'all',
-      showRecommended: { all: true, exhibited: true, notExhibited: true },
-      showLuxury: { all: true, exhibited: true, notExhibited: false },
-      dateType: 'regDate',
-      startDate: '2025-06-03',
-      endDate: '2025-06-10',
-      searchType: 'none',
-      searchKeyword: '',
-    },
-  });
 
   function onSubmit(data: FormValues) {
     console.log('Form submitted:', data);
