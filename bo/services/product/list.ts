@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { SortingState } from '@tanstack/react-table';
 
 import { ProductDataTableModel } from '@/types/product';
-import { apiRequest } from '@/lib/httpClient';
+import { httpClient } from '@/lib/httpClient';
 import { buildQueryParams } from '@/lib/utils';
 
 interface UsePostsOptions {
@@ -17,7 +17,7 @@ export const useProductList = ({ page, limit, sorting, filter }: UsePostsOptions
     queryKey: ['posts', page, sorting, filter],
     queryFn: () => {
       const query = buildQueryParams(page, limit, sorting, filter);
-      return apiRequest(`/posts?${query}`);
+      return httpClient.get(`/posts?${query}`);
     },
     placeholderData: (prev) => prev,
   });
