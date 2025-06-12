@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { SortingState } from '@tanstack/react-table';
 
 import { ProductDataTableModel } from '@/types/product';
-import { apiRequest } from '@/lib/apiClient';
+import { apiRequest } from '@/lib/httpClient';
 import { buildQueryParams } from '@/lib/utils';
 
 interface UsePostsOptions {
