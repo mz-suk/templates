@@ -1,6 +1,6 @@
 'use client';
 
-import { LayoutDashboard, ShoppingBag } from 'lucide-react';
+import { Gift, LayoutDashboard, ShoppingBag } from 'lucide-react';
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '@/components/ui/sidebar';
 
@@ -29,6 +29,24 @@ const data = {
         {
           title: '상품 목록',
           url: '/products/list',
+        },
+      ],
+    },
+    {
+      title: '혜택관리',
+      url: '/benefits',
+      icon: Gift,
+      isActive: true,
+      items: [
+        {
+          title: '쿠폰 관리',
+          url: '',
+          items: [
+            {
+              title: '쿠폰 목록',
+              url: '/benefits/list',
+            },
+          ],
         },
       ],
     },
