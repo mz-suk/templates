@@ -65,7 +65,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex min-h-[100%] items-center justify-center px-4">
+    <div className="flex min-h-[100vh] items-center justify-center px-4">
       <div className="w-full max-w-md rounded-3xl bg-[var(--color-white)] p-10 shadow-md">
         <h1 className="mb-3 text-3xl font-bold text-[var(--color-gray-900)]">Back Office 로그인</h1>
         <p className="mb-8 text-sm text-[var(--color-gray-600)]">관리자 계정으로 로그인하세요.</p>

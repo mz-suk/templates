@@ -15,9 +15,9 @@ interface UsePostsOptions {
 export const useProductList = ({ page, limit, sorting, filter }: UsePostsOptions) =>
   useQuery<ProductDataTableModel[]>({
     queryKey: ['posts', page, sorting, filter],
-    queryFn: () => {
+    queryFn: async () => {
       const query = buildQueryParams(page, limit, sorting, filter);
-      return httpClient.get(`/posts?${query}`);
+      return await httpClient.get(`https://jsonplaceholder.typicode.com/posts?${query}`, { isExternal: true });
     },
     placeholderData: (prev) => prev,
   });

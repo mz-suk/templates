@@ -82,7 +82,7 @@ async function http<T>(
   //   throw new ApiError(responseData.resultMessage, response.status, responseData as unknown as ApiResponse<null>);
   // }
 
-  return responseData.result;
+  return responseData.result ?? responseData?.data ?? (responseData as T);
 }
 
 export const httpClient = {
