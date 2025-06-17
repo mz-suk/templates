@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { DataTable } from '@/components/common/dataTable/DataTable';
 import SkeletonTable from '@/components/common/dataTable/SkeletonTable';
 import { TableContainer, TableDataCell, TableHeaderCell, TableRow } from '@/components/common/table';
-import { columns } from '@/components/page/product/Columns';
+import { Columns } from '@/components/page/product/columns';
 // shadcn/ui 컴포넌트
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -247,7 +247,7 @@ export default function ProductList() {
         <SkeletonTable />
       ) : (
         <DataTable
-          columns={columns}
+          columns={Columns}
           data={data ?? []}
           currentPage={currentPage}
           onPageChange={setCurrentPage}

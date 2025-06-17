@@ -7,7 +7,7 @@ import { CouponData } from '@/types/benefit';
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 
-export const columns: ColumnDef<CouponData>[] = [
+export const Columns: ColumnDef<CouponData>[] = [
   {
     id: 'select',
     header: ({ table }) => (

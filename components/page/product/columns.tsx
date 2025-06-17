@@ -15,7 +15,7 @@ export type Post = {
   body: string;
 };
 
-export const columns: ColumnDef<Post>[] = [
+export const Columns: ColumnDef<Post>[] = [
   {
     id: 'select',
     header: ({ table }) => (

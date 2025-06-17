@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { DataTable } from '@/components/common/dataTable/DataTable';
 import SkeletonTable from '@/components/common/dataTable/SkeletonTable';
 import { TableContainer, TableDataCell, TableHeaderCell, TableRow } from '@/components/common/table';
-import { columns } from '@/components/page/benefit/columns';
+import { Columns } from '@/components/page/benefit/Columns';
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 // import { DatePicker } from '@/components/ui/date-picker';
@@ -368,7 +368,7 @@ export default function BenefitListPage() {
         <SkeletonTable />
       ) : (
         <DataTable
-          columns={columns}
+          columns={Columns}
           data={data?.result ?? []}
           currentPage={currentPage}
           onPageChange={setCurrentPage}
