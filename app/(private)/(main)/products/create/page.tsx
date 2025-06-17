@@ -16,7 +16,7 @@ import {
   FormMessage, // FormMessage를 사용해 에러를 표시합니다.
 } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select';
 import { productSchema, type ProductFormValues } from '@/lib/schema/product';
 
 export default function ProductCreate() {
