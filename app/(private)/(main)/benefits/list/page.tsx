@@ -7,17 +7,17 @@ import { OnChangeFn, SortingState } from '@tanstack/react-table';
 import { getCookie } from 'cookies-next'; // 서버/클라이언트 쿠키 처리를 위한 유틸리티
 import { useForm } from 'react-hook-form';
 
-import { DataTable } from '@/components/common/data-table/data-table';
-import SkeletonTable from '@/components/common/data-table/skeleton-table';
+import { DataTable } from '@/components/common/data-table/DataTable';
+import SkeletonTable from '@/components/common/data-table/SkeletonTable';
 import { TableContainer, TableDataCell, TableHeaderCell, TableRow } from '@/components/common/table';
-import { columns } from '@/components/page/benefit/columns';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import { columns } from '@/components/page/benefit/Columns';
+import { Button } from '@/components/ui/Button';
+import { Checkbox } from '@/components/ui/Checkbox';
 // import { DatePicker } from '@/components/ui/date-picker';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
+import { Input } from '@/components/ui/Input';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/RadioGroup';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select';
 
 // 상수 정의
 const COUPON_DATE_OPTIONS = [

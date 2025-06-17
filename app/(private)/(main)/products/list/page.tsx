@@ -6,16 +6,16 @@ import { useProductList } from '@/services/product/list';
 import { OnChangeFn, SortingState } from '@tanstack/react-table';
 import { useForm } from 'react-hook-form';
 
-import { DataTable } from '@/components/common/data-table/data-table';
-import SkeletonTable from '@/components/common/data-table/skeleton-table';
+import { DataTable } from '@/components/common/data-table/DataTable';
+import SkeletonTable from '@/components/common/data-table/SkeletonTable';
 import { TableContainer, TableDataCell, TableHeaderCell, TableRow } from '@/components/common/table';
-import { columns } from '@/components/page/product/columns';
+import { columns } from '@/components/page/product/Columns';
 // shadcn/ui 컴포넌트
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Button } from '@/components/ui/Button';
+import { Checkbox } from '@/components/ui/Checkbox';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/Form';
+import { Input } from '@/components/ui/Input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select';
 
 type FormValues = {
   category1: string;

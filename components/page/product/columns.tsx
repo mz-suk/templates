@@ -2,10 +2,10 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 
-import { Checkbox } from '@/components/ui/checkbox';
-import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
+import { Checkbox } from '@/components/ui/Checkbox';
+import { DataTableColumnHeader } from '@/components/ui/DataTableColumnHeader';
 
-import { DataTableRowActions } from './data-table-row-actions';
+import { DataTableRowActions } from './DataTableRowActions';
 
 // JSONPlaceholder의 Post 데이터 타입 정의
 export type Post = {

@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import { AppSidebar } from '@/components/common/sidebar/appSidebar';
+import { AppSidebar } from '@/components/common/sidebar/AppSidebar';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,9 +9,9 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import { Separator } from '@/components/ui/separator';
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+} from '@/components/ui/Breadcrumb';
+import { Separator } from '@/components/ui/Separator';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/Sidebar';
 
 // 이 레이아웃에 접근하기 전에 인증 상태를 확인하는 로직을 추가할 수 있습니다.
 async function checkAuth() {

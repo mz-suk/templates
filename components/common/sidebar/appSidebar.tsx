@@ -2,9 +2,9 @@
 
 import { Gift, LayoutDashboard, ShoppingBag } from 'lucide-react';
 
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '@/components/ui/sidebar';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '@/components/ui/Sidebar';
 
-import { NavMain } from './navMain';
+import { NavMain } from './NavMain';
 
 const data = {
   user: {
