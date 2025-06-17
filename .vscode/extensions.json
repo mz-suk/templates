@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    // 필수 확장 프로그램
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.vscode-typescript-next",
+    "usernamehw.errorlens",
+  ]
+} 
