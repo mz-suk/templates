@@ -63,7 +63,7 @@ type FormValues = {
   searchKeyword: string;
 };
 
-const LIMIT = 10;
+const LIMIT = 50;
 const TOTAL_COUNT = 200;
 
 export default function BenefitListPage() {
@@ -372,7 +372,7 @@ export default function BenefitListPage() {
           data={data?.result ?? []}
           currentPage={currentPage}
           onPageChange={setCurrentPage}
-          totalCount={data?.paginationInfo.totalCount ?? 0}
+          totalCount={data?.paginationInfo?.totalCount ?? 0}
           pageSize={LIMIT}
           sorting={sorting}
           onSortingChange={handleSortingChange}

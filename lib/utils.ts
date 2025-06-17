@@ -1,3 +1,4 @@
+import { NextRequest } from 'next/server';
 import { SortingState } from '@tanstack/react-table';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -8,12 +9,12 @@ export function cn(...inputs: ClassValue[]) {
 
 export const buildQueryParams = (page: number, limit: number, sorting: SortingState, filter?: string) => {
   const params = new URLSearchParams();
-  params.append('_page', String(page));
-  params.append('_limit', String(limit));
+  params.append('page', String(page));
+  params.append('size', String(limit));
 
   if (sorting.length > 0) {
-    params.append('_sort', sorting[0].id);
-    params.append('_order', sorting[0].desc ? 'desc' : 'asc');
+    params.append('sort', sorting[0].id);
+    params.append('order', sorting[0].desc ? 'desc' : 'asc');
   }
 
   if (filter) {
@@ -21,4 +22,14 @@ export const buildQueryParams = (page: number, limit: number, sorting: SortingSt
   }
 
   return params.toString();
+};
+
+export const getSearchParams = (request: NextRequest) => {
+  const searchParams = new URLSearchParams(request.url.split('?')[1]);
+  return {
+    page: searchParams.get('page')?.toString() || '',
+    size: searchParams.get('size')?.toString() || '',
+    sorting: searchParams.get('sort')?.toString() || '',
+    filter: searchParams.get('q')?.toString() || '',
+  };
 };

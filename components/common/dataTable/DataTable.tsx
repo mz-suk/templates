@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   ColumnDef,
   flexRender,
@@ -10,6 +10,7 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+import debounce from 'lodash-es/debounce';
 
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -61,22 +62,31 @@ export function DataTable<TData, TValue>({
     if (onPageChange) onPageChange(newPage);
   };
 
+  const debouncedSetGlobalFilter = useMemo(
+    () =>
+      debounce((value: string) => {
+        table.setGlobalFilter(value);
+      }, 300),
+    [table]
+  );
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      debouncedSetGlobalFilter(value);
+    },
+    [debouncedSetGlobalFilter]
+  );
+
   return (
     <div className="space-y-4">
       {showGlobalFilter && (
-        <Input
-          placeholder="전체 검색..."
-          disabled={isLoading} // 로딩중 검색 비활성화 (필요시)
-          className="max-w-sm"
-          onChange={(e) => {
-            table.setGlobalFilter(e.target.value);
-          }}
-        />
+        <Input placeholder="전체 검색..." disabled={isLoading} className="max-w-sm" onChange={handleChange} />
       )}
 
-      <div className="rounded-md border">
+      <div>
         <Table>
-          <TableHeader className="bg-gray-100">
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header, index) => (

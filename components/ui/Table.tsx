@@ -6,18 +6,26 @@ import { cn } from '@/lib/utils';
 
 function Table({ className, ...props }: React.ComponentProps<'table'>) {
   return (
-    <div data-slot="table-container" className="relative w-full overflow-x-auto">
+    <div data-slot="table-container" className="relative max-h-[500px] w-full overflow-auto rounded-md border">
       <table data-slot="table" className={cn('w-full caption-bottom text-sm', className)} {...props} />
     </div>
   );
 }
 
 function TableHeader({ className, ...props }: React.ComponentProps<'thead'>) {
-  return <thead data-slot="table-header" className={cn('[&_tr]:border-b', className)} {...props} />;
+  return (
+    <thead
+      data-slot="table-header"
+      className={cn('sticky top-0 z-10 bg-gray-100 text-center [&_tr]:border-b', className)}
+      {...props}
+    />
+  );
 }
 
 function TableBody({ className, ...props }: React.ComponentProps<'tbody'>) {
-  return <tbody data-slot="table-body" className={cn('[&_tr:last-child]:border-0', className)} {...props} />;
+  return (
+    <tbody data-slot="table-body" className={cn('text-center [&_tr:last-child]:border-0', className)} {...props} />
+  );
 }
 
 function TableFooter({ className, ...props }: React.ComponentProps<'tfoot'>) {

@@ -29,7 +29,7 @@ type FormValues = {
   searchKeyword: string;
 };
 
-const LIMIT = 10;
+const LIMIT = 50;
 const TOTAL_COUNT = 200;
 
 export default function ProductList() {
