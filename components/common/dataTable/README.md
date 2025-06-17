@@ -3,15 +3,15 @@
 └── /components
 ├── /pages
 │ ├── columns.tsx # 컬럼 정의
-│ └── data-table-row-actions.tsx # 행(row)별 액션 메뉴
+│ └── dataTable-row-actions.tsx # 행(row)별 액션 메뉴
 └── page.tsx # 실제 페이지 컴포넌트
 
 /components
 └── /ui
-├── data-table.tsx # 공통 데이터 테이블
-├── data-table-pagination.tsx # 페이지네이션
-├── data-table-toolbar.tsx # 툴바
-├── data-table-column-header.tsx # 컬럼 헤더
+├── dataTable.tsx # 공통 데이터 테이블
+├── dataTable-pagination.tsx # 페이지네이션
+├── dataTable-toolbar.tsx # 툴바
+├── dataTable-column-header.tsx # 컬럼 헤더
 
 ```
 

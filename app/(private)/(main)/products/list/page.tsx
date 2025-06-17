@@ -6,8 +6,8 @@ import { useProductList } from '@/services/product/list';
 import { OnChangeFn, SortingState } from '@tanstack/react-table';
 import { useForm } from 'react-hook-form';
 
-import { DataTable } from '@/components/common/data-table/DataTable';
-import SkeletonTable from '@/components/common/data-table/SkeletonTable';
+import { DataTable } from '@/components/common/dataTable/DataTable';
+import SkeletonTable from '@/components/common/dataTable/SkeletonTable';
 import { TableContainer, TableDataCell, TableHeaderCell, TableRow } from '@/components/common/table';
 import { columns } from '@/components/page/product/Columns';
 // shadcn/ui 컴포넌트

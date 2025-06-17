@@ -7,8 +7,8 @@ import { OnChangeFn, SortingState } from '@tanstack/react-table';
 import { getCookie } from 'cookies-next'; // 서버/클라이언트 쿠키 처리를 위한 유틸리티
 import { useForm } from 'react-hook-form';
 
-import { DataTable } from '@/components/common/data-table/DataTable';
-import SkeletonTable from '@/components/common/data-table/SkeletonTable';
+import { DataTable } from '@/components/common/dataTable/DataTable';
+import SkeletonTable from '@/components/common/dataTable/SkeletonTable';
 import { TableContainer, TableDataCell, TableHeaderCell, TableRow } from '@/components/common/table';
 import { columns } from '@/components/page/benefit/Columns';
 import { Button } from '@/components/ui/Button';
