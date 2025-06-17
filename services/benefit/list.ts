@@ -17,7 +17,7 @@ export const useBenefitList = ({ page, limit, sorting, filter }: UsePostsOptions
     queryKey: ['posts', page, sorting, filter],
     queryFn: async () => {
       const query = buildQueryParams(page, limit, sorting, filter);
-      return await httpClient.get(`/coupons?${query}`);
+      return fetch(`/api/benefit/list?${query}`).then((res) => res.json());
     },
     placeholderData: (prev) => prev,
   });

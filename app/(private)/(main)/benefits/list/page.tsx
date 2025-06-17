@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { DataTable } from '@/components/common/dataTable/DataTable';
 import SkeletonTable from '@/components/common/dataTable/SkeletonTable';
 import { TableContainer, TableDataCell, TableHeaderCell, TableRow } from '@/components/common/table';
-import { columns } from '@/components/page/benefit/Columns';
+import { columns } from '@/components/page/benefit/columns';
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 // import { DatePicker } from '@/components/ui/date-picker';
@@ -44,12 +44,6 @@ const COUPON_TYPE_OPTIONS = [
   { value: 'gift', label: '사은품' },
 ];
 
-const COUPON_STATUS_OPTIONS = [
-  { value: 'all', label: '전체' },
-  { value: 'Y', label: '발행완료' },
-  { value: 'N', label: '발행전' },
-];
-
 type FormValues = {
   periodType: string;
   issuanceStart: string;
@@ -73,7 +67,7 @@ type FormValues = {
 const LIMIT = 10;
 const TOTAL_COUNT = 200;
 
-export default function CouponList() {
+export default function BenefitListPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [usagePeriodCode, setUsagePeriodCode] = useState('10');

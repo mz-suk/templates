@@ -97,6 +97,10 @@ Vercel로 자동 배포되며, main 브랜치 푸시 시 배포가 트리거됩�
 │   │   └── page.tsx
 │   ├── layout.tsx             # 메인 애플리케이션 레이아웃
 │   └── page.tsx               # 홈페이지 (루트 페이지)
+|
+├── actions/                   # Server Actions 정의 (Next.js 서버 컴포넌트 액션)
+│   └── login.ts               # 로그인/로그아웃 관련 서버 액션 (토큰 발급, 쿠키 설정 등)
+|
 ├── api/                       # API Route Handlers
 │   └── hello/
 │       └── route.ts           # 예시 API 엔드포인트

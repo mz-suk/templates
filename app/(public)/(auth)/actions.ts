@@ -1,4 +1,3 @@
-// /app/auth/actions.ts
 'use server';
 
 import { cookies } from 'next/headers';
@@ -10,6 +9,7 @@ import { httpClient } from '@/lib/httpClient';
 interface LoginResponse {
   accessToken: string;
   refreshToken: string;
+  sessionToken: string;
 }
 
 export async function loginAction(
@@ -19,10 +19,10 @@ export async function loginAction(
   try {
     // 1. 디버깅을 위한 시작 로그
 
-    const userName = formData.get('userName') as string;
-    const password = formData.get('password') as string;
+    const userName = formData.get('userName')?.toString();
+    const password = formData.get('password')?.toString();
 
-    const res = await httpClient.post<LoginResponse>('/auth/token', { userName, password });
+    const res = await httpClient.post<LoginResponse>('/auth/token', { userName, password, sessionToken: 'test' });
 
     // 2. API 응답 직후 로그 (가장 중요)
 
