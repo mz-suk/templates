@@ -3,36 +3,11 @@
 import Link from 'next/link';
 import { ColumnDef } from '@tanstack/react-table';
 
+import { CouponData } from '@/types/benefit';
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
-import { DataTableColumnHeader } from '@/components/ui/DataTableColumnHeader';
 
-export type Benefit = {
-  couponId: string;
-  couponNameKo: string;
-  couponTypeName: string;
-  issuanceTypeName: string;
-  discountApplicationTypeName: string;
-  smartDutyFreeAppUseYn: 'Y' | 'N';
-  offlineStoreUseYn: 'Y' | 'N';
-  membershipBenefitTypeName: string;
-  displayYn: 'Y' | 'N';
-  issuanceStart: string;
-  issuanceEnd: string;
-  usagePeriodCode: string;
-  validityPeriodDays: string;
-  usagePeriodCodeName: string;
-  issueStatus: 'Y' | 'N';
-  issueDate: string;
-  forceTerminateYn: 'Y' | 'N';
-  forceTerminateDt: string;
-  regUser: string;
-  regDate: string;
-  updUser: string;
-  updDate: string;
-};
-
-export const columns: ColumnDef<Benefit>[] = [
+export const columns: ColumnDef<CouponData>[] = [
   {
     id: 'select',
     header: ({ table }) => (

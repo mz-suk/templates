@@ -23,3 +23,21 @@ export class ApiError extends Error {
     this.data = data;
   }
 }
+
+/**
+ * 페이지네이션 정보 인터페이스
+ */
+export interface PaginationInfo {
+  page: number;
+  size: number;
+  totalCount: number;
+}
+
+/**
+ * 페이지네이션된 API 응답의 공통 인터페이스
+ * - T: 목록 데이터의 타입
+ */
+export interface PaginatedResponse<T> {
+  paginationInfo: PaginationInfo;
+  result: T[];
+}

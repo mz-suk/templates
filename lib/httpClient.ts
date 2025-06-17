@@ -19,8 +19,6 @@ async function http<T>(
   options: RequestOptions = {}
 ): Promise<T> {
   const { params, headers: customHeaders, isExternal = false, token, ...restOptions } = options;
-  console.log('@@@@@@@token', token);
-
   let url = isExternal ? endpoint : `${API_HOST}${endpoint}`;
   if (params && method === 'GET') {
     const searchParams = new URLSearchParams();
@@ -36,7 +34,6 @@ async function http<T>(
     headers.set('Accept-Language', 'ko');
   }
   if (!headers.has('Authorization') && token) {
-    console.log('33232', token);
     headers.set('Authorization', `Bearer ${token}`);
   }
 
@@ -50,6 +47,7 @@ async function http<T>(
     }
   }
 
+  console.log('url', url);
   const response = await fetch(url, {
     method,
     headers,

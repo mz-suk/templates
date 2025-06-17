@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useBenefitList } from '@/services/benefit/list';
 import { OnChangeFn, SortingState } from '@tanstack/react-table';
-import { getCookie } from 'cookies-next'; // 서버/클라이언트 쿠키 처리를 위한 유틸리티
 import { useForm } from 'react-hook-form';
 
 import { DataTable } from '@/components/common/dataTable/DataTable';
@@ -106,12 +105,11 @@ export default function BenefitListPage() {
   });
 
   function onSubmit(data: FormValues) {
-    console.log('Form submitted:', data);
     // TODO: API 호출 등 데이터 처리 로직 구현
   }
 
   const colWidths = ['w-40', 'w-[calc(50%-8rem)]', 'w-40', 'w-[calc(50%-8rem)]'];
-  console.log('getCookie', getCookie('accessToken'));
+
   return (
     <div>
       <Form {...form}>
@@ -366,15 +364,15 @@ export default function BenefitListPage() {
         </Button>
       </div>
 
-      {isLoading || isFetching ? (
+      {isLoading ? (
         <SkeletonTable />
       ) : (
         <DataTable
           columns={columns}
-          data={data ?? []}
+          data={data?.result ?? []}
           currentPage={currentPage}
           onPageChange={setCurrentPage}
-          totalCount={TOTAL_COUNT}
+          totalCount={data?.paginationInfo.totalCount ?? 0}
           pageSize={LIMIT}
           sorting={sorting}
           onSortingChange={handleSortingChange}
