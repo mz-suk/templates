@@ -1,0 +1,332 @@
+# 메가존 BO Next.js 프로젝트 - Cursor 규칙
+
+이 프로젝트는 메가존의 Back Office용 Next.js 애플리케이션 개발을 위한 기본 템플릿입니다.
+
+## 기본 지침
+
+모든 대화는 한글로 진행합니다.
+코드는 실제로 동작하며 바로 실행 가능해야 합니다.
+프로덕션 수준의 코드 품질을 유지합니다.
+
+## 기술 스택 및 아키텍처
+
+### 핵심 기술
+- Next.js 15.3.3 (App Router)
+- React 19.1.0
+- TypeScript 5.8.3
+- Tailwind CSS 4.1.8
+- TanStack Query 5.80.6 (서버 상태 관리)
+- Zustand 5.0.5 (클라이언트 상태 관리)
+- React Hook Form 7.57.0 + Zod 3.25.61
+
+### UI 라이브러리
+- shadcn/ui 컴포넌트 시스템
+- Radix UI primitives
+- Lucide React 아이콘
+
+### 개발 도구
+- Storybook 9.0.8
+- Vitest 3.2.3
+- ESLint + Prettier
+- Turbopack
+
+## 프로젝트 구조
+
+```
+app/                    # Next.js App Router
+├── (private)/         # 인증 필요 라우트
+├── (public)/          # 공개 라우트
+├── api/               # API 라우트
+├── layout.tsx         # 루트 레이아웃
+└── providers.tsx      # 전역 프로바이더
+
+components/            # 재사용 컴포넌트
+├── ui/               # shadcn/ui 컴포넌트
+├── common/           # 공통 컴포넌트
+├── page/             # 페이지별 컴포넌트
+└── test/             # 테스트 컴포넌트
+
+lib/                  # 라이브러리 유틸리티
+services/            # API 서비스 레이어
+hooks/               # 커스텀 훅
+types/               # 타입 정의
+store/               # 상태 관리
+styles/          # 스타일
+```
+
+## 코딩 규칙
+
+### TypeScript
+- 엄격 모드 사용 (strict: true)
+- 명시적 타입 정의 선호
+- any 타입 사용 금지
+- interface보다 type 사용 권장
+- 제네릭 적극 활용
+
+### React 컴포넌트
+- 함수형 컴포넌트만 사용
+- React 19 기능 적극 활용
+- 컴포넌트는 단일 책임 원칙 준수
+- Props 타입은 별도로 정의
+
+```tsx
+interface ButtonProps {
+  variant?: 'primary' | 'secondary' | 'outline';
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+  children: React.ReactNode;
+  onClick?: () => void;
+}
+
+export function Button({ variant = 'primary', size = 'md', ...props }: ButtonProps) {
+  return <button className={cn(buttonVariants({ variant, size }))} {...props} />;
+}
+```
+
+### Next.js App Router
+- 파일 기반 라우팅 사용
+- Route Groups 적극 활용: (private), (public), (auth)
+- Server Components 우선 사용
+- Client Components는 'use client' 명시하고 최소한의 코드만 작성
+- 레이아웃 계층 구조 활용
+
+### 상태 관리
+- 서버 상태: TanStack Query 사용
+- 클라이언트 상태: Zustand 사용
+- 로컬 상태: useState, useReducer
+- 폼 상태: React Hook Form
+
+```tsx
+// TanStack Query 사용 예시
+export function useUsers() {
+  return useQuery({
+    queryKey: ['users'],
+    queryFn: async () => {
+      const response = await apiClient.get('/users');
+      return response.data;
+    },
+  });
+}
+
+// Zustand 사용 예시
+interface AuthStore {
+  user: User | null;
+  isAuthenticated: boolean;
+  login: (user: User) => void;
+  logout: () => void;
+}
+
+export const useAuthStore = create<AuthStore>((set) => ({
+  user: null,
+  isAuthenticated: false,
+  login: (user) => set({ user, isAuthenticated: true }),
+  logout: () => set({ user: null, isAuthenticated: false }),
+}));
+```
+
+### 스타일링
+- Tailwind CSS 사용
+- shadcn/ui 컴포넌트 시스템 활용
+- cn() 유틸리티로 클래스 병합
+- CSS Variables 사용
+- 반응형 디자인 필수
+
+```tsx
+import { cn } from '@/lib/utils';
+
+export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      className={cn(
+        'rounded-lg border bg-card text-card-foreground shadow-sm',
+        className
+      )}
+      {...props}
+    />
+  );
+}
+```
+
+### API 통신
+- httpClient.ts를 통한 HTTP 요청
+- TanStack Query로 서버 상태 관리
+- 에러 처리 및 로딩 상태 관리
+- TypeScript 타입 안전성 보장
+
+```tsx
+// API 서비스 예시
+export const userService = {
+  getUsers: async (params?: UserListParams): Promise<UserListResponse> => {
+    const response = await httpClient.get('/users', { params });
+    return response.data;
+  },
+  
+  createUser: async (userData: CreateUserRequest): Promise<User> => {
+    const response = await httpClient.post('/users', userData);
+    return response.data;
+  },
+};
+```
+
+### 폼 처리
+- React Hook Form + Zod 조합 사용
+- 타입 안전한 폼 유효성 검사
+- shadcn/ui Form 컴포넌트 활용
+
+```tsx
+const formSchema = z.object({
+  email: z.string().email('올바른 이메일을 입력해주세요'),
+  password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다'),
+});
+
+type FormData = z.infer<typeof formSchema>;
+
+export function LoginForm() {
+  const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: { email: '', password: '' },
+  });
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>이메일</FormLabel>
+              <FormControl>
+                <Input placeholder="이메일을 입력하세요" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </form>
+    </Form>
+  );
+}
+```
+
+## 인증 시스템
+
+- 쿠키 기반 인증 (accessToken)
+- middleware.ts에서 라우트 보호
+- 공개 라우트: /login, /signup
+- 보호된 라우트: /dashboard 등
+- 자동 리다이렉션 구현
+
+```tsx
+// middleware.ts 예시
+export function middleware(request: NextRequest) {
+  const sessionToken = request.cookies.get('accessToken')?.value;
+  const { pathname } = request.nextUrl;
+
+  const publicPaths = ['/login', '/signup'];
+  const isPublicPath = publicPaths.some(path => pathname.startsWith(path));
+
+  if (sessionToken && isPublicPath) {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
+  }
+
+  if (!sessionToken && !isPublicPath) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  return NextResponse.next();
+}
+```
+
+## 파일 명명 규칙
+
+### 컴포넌트
+- PascalCase 사용: `UserProfile.tsx`
+- 디렉토리명: kebab-case: `user-profile/`
+- Index 파일 활용: `components/ui/index.ts`
+
+### 훅
+- camelCase 사용: `useUserData.ts`
+- use 접두사 필수
+
+### 유틸리티
+- camelCase 사용: `formatDate.ts`
+- 함수명은 동사로 시작
+
+### 타입
+- PascalCase 사용: `UserData.ts`
+- 접미사 활용: `UserDataProps`, `UserDataResponse`
+
+## 성능 최적화
+
+### 코드 분할
+- 동적 import 사용
+- React.lazy로 컴포넌트 지연 로딩
+- Next.js 자동 코드 분할 활용
+
+### 이미지 최적화
+- Next.js Image 컴포넌트 사용
+- 적절한 크기 및 포맷 지정
+- 지연 로딩 활용
+
+### 번들 최적화
+- Tree shaking 최적화
+- 불필요한 의존성 제거
+- 번들 분석 정기 실행
+
+## 테스트
+
+### 단위 테스트
+- Vitest 사용
+- 컴포넌트 테스트: Testing Library
+- 커스텀 훅 테스트
+- 유틸리티 함수 테스트
+
+### Storybook
+- 모든 UI 컴포넌트 스토리 작성
+- 다양한 상태 및 props 시나리오
+- 접근성 테스트 포함
+
+## 코드 품질
+
+### ESLint 규칙
+- Next.js 최적화 규칙
+- TypeScript 엄격 규칙
+- React Hooks 규칙
+- 접근성 규칙
+
+### Prettier 설정
+- 자동 import 정렬
+- Tailwind CSS 클래스 정렬
+- 일관된 코드 포맷팅
+
+### Git 커밋
+- Conventional Commits 사용
+- 의미있는 커밋 메시지
+- 작은 단위의 커밋
+
+## 문서화
+
+### JSDoc 주석
+- 복잡한 함수에 대한 설명
+- 타입이 명확하지 않은 경우
+- API 문서화
+
+### README 업데이트
+- 새로운 기능 추가 시 문서 업데이트
+- 설치 및 실행 가이드 유지
+- API 변경사항 기록
+
+## 배포 및 환경
+
+### 환경 변수
+- .env.local 사용
+- NEXT_PUBLIC_ 접두사 활용
+- 타입 안전한 환경 변수 접근
+
+### 빌드 최적화
+- Turbopack 개발 서버
+- Production 빌드 최적화
+- 정적 파일 최적화
+
+이 규칙들을 준수하여 일관되고 유지보수 가능한 코드를 작성해주세요. 
