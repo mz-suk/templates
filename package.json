@@ -17,12 +17,14 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "check": "pnpm lint && pnpm type",
     "gf": "git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -d",
     "gfl": "git branch | grep -v '^*' | xargs git branch -D",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "type": "tsc --noEmit",
-    "type:watch": "tsc --noEmit --watch"
+    "type:watch": "tsc --noEmit --watch",
+    "bundle-analyzer": "ANALYZE=true next build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",

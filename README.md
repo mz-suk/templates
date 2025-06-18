@@ -68,8 +68,7 @@
 ├── stories/                   # Storybook 스토리
 ├── styles/                    # 스타일 파일
 ├── .storybook/               # Storybook 설정
-├── middleware.ts             # Next.js 미들웨어 (인증)
-└── tailwind.config.js        # Tailwind CSS 설정
+└── middleware.ts             # Next.js 미들웨어 (인증)
 ```
 
 ## 🚀 시작하기
