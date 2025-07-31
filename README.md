@@ -1,14 +1,10 @@
 # next-base
 
-메가존 BO Next.js 프로젝트를 위한 기본 템플릿
-
-## 📋 개요
-
-이 프로젝트는 메가존의 Back Office용 Next.js 애플리케이션 개발을 위한 기본 템플릿입니다. 현대적인 웹 개발 스택과 최적화된 아키텍처를 제공합니다.
+메가존 BO Next.js 프로젝트 템플릿
 
 ## 🛠 기술 스택
 
-### 핵심 프레임워크
+### 프레임워크
 
 - **Next.js 15.3.3** - React 기반 풀스택 프레임워크 (App Router)
 - **React 19.1.0** - UI 라이브러리
@@ -19,7 +15,7 @@
 - **TanStack Query 5.80.6** - 서버 상태 관리 및 캐싱
 - **Zustand 5.0.5** - 클라이언트 상태 관리
 
-### UI & 스타일링
+### UI
 
 - **Tailwind CSS 4.1.8** - 유틸리티 우선 CSS 프레임워크
 - **shadcn/ui** - 고품질 재사용 가능한 컴포넌트
@@ -41,305 +37,324 @@
 ## 📁 프로젝트 구조
 
 ```
-├── app/                          # Next.js App Router
-│   ├── (private)/               # 인증이 필요한 라우트
-│   │   ├── dashboard/           # 대시보드 페이지
-│   │   └── layout.tsx          # 인증된 사용자 레이아웃
-│   ├── (public)/               # 공개 라우트
-│   │   └── (auth)/             # 인증 관련 페이지
-│   │       └── login/          # 로그인 페이지
-│   ├── api/                    # API 라우트
-│   ├── layout.tsx              # 루트 레이아웃
-│   ├── providers.tsx           # 전역 프로바이더
-│   ├── page.tsx               # 홈 페이지
-│   ├── loading.tsx            # 로딩 UI
-│   ├── not-found.tsx          # 404 페이지
-│   └── global-error.tsx       # 에러 바운더리
-├── components/                # 재사용 가능한 컴포넌트
-│   ├── ui/                    # shadcn/ui 컴포넌트
-│   ├── common/                # 공통 컴포넌트
-│   ├── page/                  # 페이지 특화 컴포넌트
-│   └── test/                  # 테스트용 컴포넌트
-├── lib/                       # 라이브러리 유틸리티
-├── hooks/                     # 글로벌 커스텀 훅
-├── types/                     # 글로벌 타입 정의
-├── store/                     # 글로벌 상태 관리
-├── services/                  # API 서비스 레이어
-├── stories/                   # Storybook 스토리
-├── styles/                    # 스타일 파일
-├── .storybook/               # Storybook 설정
-└── middleware.ts             # Next.js 미들웨어 (인증)
+app/                    # Next.js App Router
+├── (private)/         # 인증 필요 라우트
+├── (public)/          # 공개 라우트
+├── api/               # API 라우트
+└── actions/           # 서버 액션
+
+components/            # 재사용 컴포넌트
+├── ui/               # shadcn/ui 컴포넌트
+├── common/           # 공통 컴포넌트
+└── page/             # 페이지별 컴포넌트
+
+lib/                  # 유틸리티 (httpClient, utils 등)
+services/             # API 서비스 레이어
+store/                # Zustand 상태 관리
+types/                # 타입 정의
+hooks/                # 커스텀 훅
 ```
+
+## 🤖 Cursor Project Rules
+
+```
+.cursor/
+rules/
+├── index.mdc                # 메인 프로젝트 규칙 (항상 적용)
+├── nextjs-react.mdc         # Next.js & React 개발 패턴
+├── ui-components.mdc        # shadcn/ui & Tailwind CSS 스타일링
+├── api-services.mdc         # TanStack Query & Zustand 패턴
+└── testing-storybook.mdc    # Vitest & Storybook 테스팅
+```
+
+### 사용법
+
+- **자동 적용**: AI가 컨텍스트에 따라 관련 규칙 자동 선택
+- **수동 참조**: `@nextjs-react 규칙을 따라서 Server Component를 만들어줘`
+- **규칙 확인**: Cursor IDE에서 `Cmd+Shift+P` → "Cursor: Open Rules"
 
 ## 🚀 시작하기
 
-### 필수 요구사항
-
-- **Node.js** >= 22.0.0
-- **pnpm** >= 10.0.0
-
 ### 설치 및 실행
 
-1. **의존성 설치**
-
-   ```bash
-   pnpm install
-   ```
-
-2. **개발 서버 실행**
-
-   ```bash
-   pnpm dev
-   ```
-
-   애플리케이션이 [http://localhost:5050](http://localhost:5050)에서 실행됩니다.
-
-3. **프로덕션 빌드**
-   ```bash
-   pnpm build
-   pnpm start
-   ```
-
-## 🧪 개발 도구
-
-### Storybook
-
-컴포넌트 개발 및 테스트:
-
 ```bash
-pnpm storybook
+pnpm install
+pnpm dev          # http://localhost:5050
 ```
 
-[http://localhost:6006](http://localhost:6006)에서 확인 가능
-
-### 코드 품질
+### 개발 도구
 
 ```bash
-pnpm lint          # ESLint 검사
-pnpm lint:fix      # ESLint 자동 수정
-pnpm format        # Prettier 포맷팅
-pnpm format:check  # 포맷팅 검사
-pnpm type          # TypeScript 타입 검사
-pnpm type:watch    # 타입 검사 감시 모드
+pnpm storybook    # http://localhost:6006
+pnpm test         # Vitest 테스트
+pnpm lint         # ESLint 검사
+pnpm format       # Prettier 포맷팅
+pnpm type         # TypeScript 타입 검사
 ```
 
-### Git 유틸리티
+## 📦 핵심 개발 패턴
 
-```bash
-pnpm gf            # 원격에서 삭제된 브랜치 정리
-pnpm gfl           # 로컬 브랜치 일괄 삭제
+### Next.js App Router
+
+```tsx
+// Server Component (기본)
+export default async function ProductPage({ params }: { params: { id: string } }) {
+  const product = await fetch(`/api/products/${params.id}`).then((res) => res.json());
+  return <ProductDetail product={product} />;
+}
+
+// Client Component (필요시만)
+('use client');
+export const InteractiveButton = () => {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>클릭: {count}</button>;
+};
 ```
 
-## 🔐 인증 시스템
+### API 서비스 레이어 (3계층 아키텍처)
 
-프로젝트는 쿠키 기반 인증 시스템을 사용합니다:
+```tsx
+// 1. httpClient (lib/httpClient.ts)
+const users = await httpClient.get<User[]>('/api/users');
 
-- **미들웨어**: `middleware.ts`에서 라우트 보호
-- **공개 라우트**: `/login`, `/signup` 등
-- **보호된 라우트**: `/dashboard` 등 인증 필요
-- **자동 리다이렉션**: 로그인 상태에 따른 페이지 전환
+// 2. 서비스 레이어 (services/user/user.ts)
+export const userService = {
+  getUsers: async () => httpClient.get<User[]>('/api/users'),
+  createUser: async (data) => httpClient.post<User>('/api/users', data),
+};
 
-## 🎨 UI 컴포넌트
-
-### shadcn/ui 컴포넌트
-
-프로젝트는 shadcn/ui를 기반으로 한 고품질 컴포넌트를 제공합니다:
-
-- **버튼, 입력, 폼** - 기본 UI 요소
-- **데이터 테이블** - 정렬, 필터링, 페이지네이션 지원
-- **네비게이션** - 사이드바, 브레드크럼
-- **피드백** - 툴팁, 알림, 로딩 상태
-- **레이아웃** - 시트, 대화상자, 구분선
-
-### 컴포넌트 추가
-
-```bash
-npx shadcn-ui@latest add [component-name]
-```
-
-## 📡 API 통신
-
-### HTTP 클라이언트
-
-- **httpClient.ts**: 기본 HTTP 요청 처리
-- **apiClient.ts**: API 엔드포인트 래퍼
-- **TanStack Query**: 서버 상태 관리 및 캐싱
-
-### 사용 예시
-
-```typescript
-import { useQuery } from '@tanstack/react-query';
-
-import { apiClient } from '@/lib/apiClient';
-
-function UserList() {
-  const { data, isLoading } = useQuery({
+// 3. TanStack Query 훅 (hooks/useUsers.ts)
+export const useUsers = () => {
+  return useQuery({
     queryKey: ['users'],
-    queryFn: () => apiClient.get('/users'),
+    queryFn: userService.getUsers,
+    staleTime: 5 * 60 * 1000, // 5분 캐싱
+  });
+};
+```
+
+**TanStack Query 선택 이유**:
+
+- 선언적 데이터 페칭으로 복잡한 useEffect 로직 제거
+- 강력한 캐싱 전략 (stale-while-revalidate)
+- 자동 동기화 및 재시도 기능
+- 서버/클라이언트 상태 명확한 분리
+
+### Zustand 상태 관리 (클라이언트 전용)
+
+```tsx
+// store/userStore.ts
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+
+type UserStore = {
+  currentUser: User | null;
+  setCurrentUser: (user: User | null) => void;
+  logout: () => void;
+};
+
+export const useUserStore = create<UserStore>()(
+  devtools(
+    (set) => ({
+      currentUser: null,
+      setCurrentUser: (user) => set({ currentUser: user }),
+      logout: () => set({ currentUser: null }),
+    }),
+    { name: 'user-store' }
+  )
+);
+
+// 셀렉터 패턴 (렌더링 최적화)
+export const useCurrentUser = () => useUserStore((state) => state.currentUser);
+```
+
+**Zustand 선택 이유**:
+
+- 최소한의 API로 간단한 설정 (Provider 불필요)
+- Redux 대비 적은 보일러플레이트 코드
+- 자동 렌더링 최적화 (특정 상태만 구독)
+- 가벼운 번들 크기
+
+### shadcn/ui + 폼 처리 ('레시피' 방식)
+
+```tsx
+// 컴포넌트 생성 (프로젝트에 직접 복사)
+npx shadcn-ui@latest add button
+
+// 폼 컴포넌트 패턴
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const userSchema = z.object({
+  name: z.string().min(2, '이름은 최소 2자 이상'),
+  email: z.string().email('올바른 이메일 형식이 아닙니다'),
+});
+
+type UserFormData = z.infer<typeof userSchema>;
+
+export const UserForm = () => {
+  const form = useForm<UserFormData>({
+    resolver: zodResolver(userSchema),
+    defaultValues: { name: '', email: '' },
   });
 
-  // ...
-}
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>이름</FormLabel>
+              <FormControl>
+                <Input placeholder="이름 입력" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">등록</Button>
+      </form>
+    </Form>
+  );
+};
 ```
 
-## 🎯 라우팅 아키텍처
+**shadcn/ui 선택 이유**:
 
-### Route Groups
+- npm 라이브러리가 아닌 '레시피' 방식으로 완전한 코드 소유권
+- Tailwind CSS 기반으로 프로젝트 스타일과 일관성
+- Radix UI 기반으로 접근성(a11y) 자동 지원
+- 자유로운 커스터마이징 가능
 
-- **(private)**: 인증이 필요한 페이지
-- **(public)**: 누구나 접근 가능한 페이지
-- **(auth)**: 인증 관련 페이지
+### TanStack Query 뮤테이션
 
-### 레이아웃 계층
+```tsx
+export const useCreateUser = () => {
+  const queryClient = useQueryClient();
 
-1. **Root Layout** (`app/layout.tsx`): 전역 설정
-2. **Public Layout** (`app/(public)/layout.tsx`): 공개 페이지용
-3. **Private Layout** (`app/(private)/layout.tsx`): 인증된 사용자용
-
-## 🔧 설정
-
-### Path Aliases
-
-```typescript
-"@/*": ["./*"]  // 프로젝트 루트 기준
+  return useMutation({
+    mutationFn: userService.createUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      toast({ title: '성공', description: '사용자가 생성되었습니다.' });
+    },
+    onError: () => {
+      toast({ title: '오류', description: '생성에 실패했습니다.', variant: 'destructive' });
+    },
+  });
+};
 ```
 
-### Tailwind CSS
+## 🎨 Tailwind CSS 클래스 순서
 
-- **Base Color**: neutral
-- **CSS Variables**: 활성화
-- **Import Sorting**: 자동 정렬 적용
+1. 레이아웃 (flex, grid, block)
+2. 위치 (relative, absolute)
+3. 크기 (w-, h-)
+4. 간격 (m-, p-)
+5. 타이포그래피 (text-, font-)
+6. 색상 (bg-, text-, border-)
+7. 기타 스타일 (rounded-, shadow-)
+8. 반응형 (sm:, md:, lg:)
+9. 상태 (hover:, focus:)
 
-### ESLint & Prettier
-
-- **Next.js** 최적화된 규칙
-- **자동 import 정렬**
-- **Tailwind CSS** 클래스 정렬
-
-## 📦 배포
-
-### 환경 변수
-
-`.env.local` 파일에 필요한 환경 변수를 설정하세요:
-
-```env
-NEXT_PUBLIC_API_URL=your_api_url
+```tsx
+// 좋은 예
+<div className="flex flex-col w-full max-w-md p-6 text-sm bg-white border rounded-lg shadow-md hover:shadow-lg md:p-8">
 ```
 
-### 빌드 최적화
+## 🧪 테스트 & Storybook
 
-- **Turbopack**: 개발 시 빠른 빌드
-- **Code Splitting**: 자동 코드 분할
-- **Image Optimization**: 자동 이미지 최적화
+### Vitest 테스트
 
-## 🤝 기여하기
+```tsx
+import { fireEvent, render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 
-1. **브랜치 생성**: `git checkout -b feature/your-feature`
-2. **커밋**: `git commit -m 'Add some feature'`
-3. **푸시**: `git push origin feature/your-feature`
-4. **Pull Request** 생성
-
-### 코드 스타일
-
-- **TypeScript** 엄격 모드 사용
-- **ESLint** 규칙 준수
-- **Prettier** 포맷팅 적용
-- **컴포넌트 단위** 개발 및 테스트
-
-## 📚 추가 자료
-
-- [Next.js 문서](https://nextjs.org/docs)
-- [TanStack Query 문서](https://tanstack.com/query/latest)
-- [shadcn/ui 문서](https://ui.shadcn.com)
-- [Tailwind CSS 문서](https://tailwindcss.com/docs)
-- [React Hook Form 문서](https://react-hook-form.com)
-
-## 📄 라이선스
-
-이 프로젝트는 이제 제껍니다.
-
-TODO: 프로젝트 구조 정리
-
-```plaintext
-📁 루트 디렉토리
-├── .env.example                # 환경 변수 예시 파일
-├── .eslintrc.json              # ESLint 설정
-├── .gitignore                  # Git 무시 파일 목록
-├── .prettierrc.json            # Prettier 설정 (선택사항, package.json에 통합 가능)
-├── next.config.mjs             # Next.js 설정 파일
-├── package.json                # 프로젝트 의존성 및 스크립트
-├── tsconfig.json               # TypeScript 설정
-├── README.md                   # 프로젝트 설명 및 가이드
-
-📁 public/                      # 정적 에셋 (이미지, 폰트 등)
-├── fonts/
-└── images/
-
-📁 app/                         # Next.js App Router 핵심 디렉토리
-├── (auth)/                    # 인증 관련 라우트 그룹 (예: 로그인, 회원가입)
-│   ├── login/
-│   │   └── page.tsx
-│   └── layout.tsx             # 인증 페이지용 레이아웃
-├── (main)/                    # 주요 애플리케이션 라우트 그룹
-│   ├── dashboard/
-│   │   ├── settings/
-│   │   │   └── page.tsx
-│   │   ├── layout.tsx         # 대시보드 특정 레이아웃
-│   │   └── page.tsx
-│   ├── layout.tsx             # 메인 애플리케이션 레이아웃
-│   └── page.tsx               # 홈페이지 (루트 페이지)
-|
-├── actions/                   # Server Actions 정의 (Next.js 서버 컴포넌트 액션)
-│   └── login.ts               # 로그인/로그아웃 관련 서버 액션 (토큰 발급, 쿠키 설정 등)
-|
-├── api/                       # API Route Handlers
-│   └── hello/
-│       └── route.ts           # 예시 API 엔드포인트
-├── global-error.tsx           # 전역 에러 처리 (프로덕션)
-├── layout.tsx                 # 루트 레이아웃 (필수)
-├── loading.tsx                # 루트 로딩 UI
-├── not-found.tsx              # 404 페이지
-└── template.tsx               # 루트 템플릿 (필요시)
-
-📁 components/                 # 재사용 가능한 컴포넌트
-├── ui/                        # 기본적인 UI 요소 (Button, Input, Card 등)
-│   └── Button.tsx
-├── common/                    # 여러 UI 요소를 조합한 공통 컴포넌트 (Navbar 등)
-│   └── Navbar.tsx
-└── page/                      # 도메인 종속 컴포넌트
-    └── user/
-        └── UserProfile.tsx
-
-📁 contexts/                   # React Context API (전역 상태 관리)
-└── ThemeContext.tsx
-
-📁 hooks/                      # 커스텀 React Hooks
-└── useDebounce.ts
-
-📁 lib/                        # 유틸리티, 상수, 외부 라이브러리 설정
-├── httpClient.ts              # API 클라이언트 (fetch/axios 등)
-├── constants.ts              # 전역 상수
-├── utils.ts                  # 일반 유틸리티 함수
-└── schema.ts                 # 유효성 검사 스키마 (예: Zod)
-
-📁 services/ (또는 lib/apiService/) # API 호출 추상화 로직
-└── userService.ts            # getUser, updateUser 등
-
-📁 store/                      # 전역 상태 관리 (Zustand, Redux 등)
-├── userSlice.ts              # Redux Toolkit 예시
-└── index.ts
-
-📁 styles/                     # 전역 스타일, 테마 관련
-├── globals.css               # 전역 CSS (Tailwind 포함)
-└── theme.ts                  # 테마 정의 (CSS-in-JS 등)
-
-📁 types/ (또는 interfaces/)  # 타입 정의
-├── index.ts                  # 공통 타입
-├── api.ts                    # API 관련 타입
-└── entities.ts               # 주요 데이터 모델 타입
-
-📁 tests/                      # 테스트 코드 (Jest, RTL 등)
-├── __mocks__/
-└── components/
-    └── Button.test.tsx
+describe('Button 컴포넌트', () => {
+  it('기본 버튼이 렌더링된다', () => {
+    render(<Button>클릭하세요</Button>);
+    expect(screen.getByRole('button', { name: '클릭하세요' })).toBeInTheDocument();
+  });
+});
 ```
+
+### Storybook 스토리
+
+```tsx
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { Button } from '@/components/ui/Button';
+
+const meta: Meta<typeof Button> = {
+  title: 'UI/Button',
+  component: Button,
+  parameters: { layout: 'centered' },
+  tags: ['autodocs'],
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: { children: '기본 버튼' },
+};
+```
+
+## 🔧 코딩 컨벤션
+
+### TypeScript
+
+- `any` 타입 사용 금지
+- interface보다 type 사용 권장
+- 명시적 타입 정의 필수
+
+### React
+
+- 함수형 컴포넌트만 사용
+- Named exports 사용 (default export 지양)
+- Server Components 우선, Client Components는 'use client' 명시
+
+### 파일 명명
+
+- 컴포넌트: `PascalCase.tsx`
+- 디렉토리: `kebab-case`
+- 훅: `camelCase` (use 접두사)
+- 함수: `camelCase`
+- 이벤트 핸들러: `handle` 접두사
+- Boolean 변수: `is/has/can` 접두사
+
+## 🤝 AI 개발 워크플로우
+
+### 1. 컴포넌트 생성
+
+```
+사용자 프로필 카드 컴포넌트를 만들어줘.
+avatar, name, email을 표시하고 default와 highlighted variant를 구현해줘.
+```
+
+### 2. API 서비스 생성
+
+```
+@api-services 규칙으로 사용자 CRUD를 위한 서비스와 TanStack Query 훅을 만들어줘.
+```
+
+### 3. 테스트 생성
+
+```
+@testing-storybook 규칙에 맞게 UserCard 컴포넌트의 Vitest 테스트와 Storybook 스토리를 만들어줘.
+```
+
+### 4. AI 생성 예시 결과
+
+AI가 Project Rules를 참조하여 자동 생성하는 항목들:
+
+- 표준화된 서비스 레이어 구조
+- 적절한 쿼리 키 생성
+- 에러 핸들링 및 토스트 알림
+- 캐시 무효화 패턴
+- TypeScript 타입 안전성
+- shadcn/ui 기반 컴포넌트 구조
+- Tailwind CSS 클래스 순서 준수
