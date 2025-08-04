@@ -1,7 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { AppSidebar } from '@/components/common/sidebar/AppSidebar';
-import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { AppSidebar } from '@/components/common/sidebar/AppSidebar';
 
 const meta: Meta<typeof AppSidebar> = {
   title: 'Common/AppSidebar',

@@ -10,7 +10,7 @@
     "pnpm": ">=10.0.0"
   },
   "scripts": {
-    "dev": "PORT=5050 next dev --turbopack",
+    "dev": "PORT=3000 next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

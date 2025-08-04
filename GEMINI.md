@@ -9,33 +9,33 @@ This project is a comprehensive boilerplate/template for building Back Office ap
 - **Framework**: Next.js (v15) with App Router and Turbopack.
 - **Language**: TypeScript.
 - **UI & Styling**:
-    - **Tailwind CSS**: Utility-first CSS framework.
-    - **shadcn/ui**: A collection of "copy-paste" components built on Radix UI and Tailwind CSS, giving full control over code.
-    - **Radix UI**: For accessible, unstyled UI primitives.
+  - **Tailwind CSS**: Utility-first CSS framework.
+  - **shadcn/ui**: A collection of "copy-paste" components built on Radix UI and Tailwind CSS, giving full control over code.
+  - **Radix UI**: For accessible, unstyled UI primitives.
 - **State Management**:
-    - **TanStack Query (React Query)**: For server state management (data fetching, caching, synchronization).
-    - **Zustand**: For client state management (global UI state, user session).
+  - **TanStack Query (React Query)**: For server state management (data fetching, caching, synchronization).
+  - **Zustand**: For client state management (global UI state, user session).
 - **Forms & Validation**:
-    - **React Hook Form**: For performant and flexible form handling.
-    - **Zod**: For schema definition and validation.
+  - **React Hook Form**: For performant and flexible form handling.
+  - **Zod**: For schema definition and validation.
 - **Component Development**:
-    - **Storybook**: For isolated UI component development and documentation.
+  - **Storybook**: For isolated UI component development and documentation.
 - **Code Quality**:
-    - **ESLint**: For code linting.
-    - **Prettier**: For code formatting, with import sorting.
+  - **ESLint**: For code linting.
+  - **Prettier**: For code formatting, with import sorting.
 
 ## Project Structure
 
 The project follows a feature-rich structure based on the Next.js App Router.
 
 - `app/`: Core application directory.
-    - `(private)/` & `(public)/`: Route groups to separate authenticated and public routes.
-    - `api/`: API route handlers.
-    - `actions/`: Server Actions for mutations.
+  - `(private)/` & `(public)/`: Route groups to separate authenticated and public routes.
+  - `api/`: API route handlers.
+  - `actions/`: Server Actions for mutations.
 - `components/`: Reusable React components.
-    - `ui/`: Base components from shadcn/ui.
-    - `common/`: Project-specific shared components.
-    - `page/`: Components specific to a single page/feature.
+  - `ui/`: Base components from shadcn/ui.
+  - `common/`: Project-specific shared components.
+  - `page/`: Components specific to a single page/feature.
 - `services/`: Contains API call logic, abstracting `fetch` or `axios` calls.
 - `lib/`: Utility functions, `httpClient` setup, and Zod schemas.
 - `store/`: Global client state stores (Zustand).
@@ -46,7 +46,7 @@ The project follows a feature-rich structure based on the Next.js App Router.
 
 Key commands from `package.json`:
 
-- `pnpm dev`: Starts the development server with Turbopack on `http://localhost:5050`.
+- `pnpm dev`: Starts the development server with Turbopack on `http://localhost:3000`.
 - `pnpm build`: Creates a production-ready build.
 - `pnpm start`: Starts the production server.
 - `pnpm lint`: Lints the codebase.

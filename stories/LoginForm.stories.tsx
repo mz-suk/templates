@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { userEvent, within, expect } from '@storybook/test';
+import { expect, userEvent, within } from '@storybook/test';
 import { http, HttpResponse } from 'msw';
+
 import LoginForm from '@/components/page/auth/LoginForm';
 
 const meta: Meta<typeof LoginForm> = {
@@ -58,7 +59,7 @@ export const LoginSuccess: Story = {
 
     await userEvent.type(idInput, 'admin');
     await userEvent.type(passwordInput, 'password123');
-    
+
     await expect(loginButton).toBeEnabled();
     await userEvent.click(loginButton);
 
@@ -89,16 +90,14 @@ export const LoginFailure: Story = {
 
     await userEvent.type(idInput, 'wrong-user');
     await userEvent.type(passwordInput, 'wrong-pass');
-    
+
     await userEvent.click(loginButton);
 
     await expect(canvas.getByRole('button', { name: '로그인 중...' })).toBeInTheDocument();
-    
+
     // 에러 메시지가 나타나는지 확인
-    await expect(
-      await canvas.findByText('아이디 또는 비밀번호가 올바르지 않습니다.')
-    ).toBeInTheDocument();
-    
+    await expect(await canvas.findByText('아이디 또는 비밀번호가 올바르지 않습니다.')).toBeInTheDocument();
+
     // 로그인 버튼이 다시 활성화되는지 확인
     await expect(canvas.getByRole('button', { name: '로그인' })).toBeInTheDocument();
   },

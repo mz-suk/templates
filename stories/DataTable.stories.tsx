@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
+
+import { ProductDataTableModel } from '@/types/product';
 import { DataTable } from '@/components/common/dataTable/DataTable';
 import { Columns as ProductColumns } from '@/components/page/product/Columns';
-import { ProductDataTableModel } from '@/types/product';
 
 const meta: Meta<typeof DataTable> = {
   title: 'Common/DataTable',
