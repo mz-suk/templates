@@ -1,0 +1,269 @@
+---
+description: API 서비스 & 상태 관리 (TanStack Query, Zustand, httpClient)
+globs: ["services/**/*", "hooks/**/*", "store/**/*"]
+alwaysApply: false
+---
+
+# API 서비스 & 상태 관리
+
+## httpClient 사용 패턴
+
+### 기본 HTTP 요청
+```tsx
+import { httpClient } from '@/lib/httpClient';
+
+// GET 요청
+const users = await httpClient.get<User[]>('/api/users');
+
+// POST 요청
+const newUser = await httpClient.post<User>('/api/users', {
+  name: '홍길동',
+  email: 'hong@example.com'
+});
+
+// PUT/PATCH 요청
+const updatedUser = await httpClient.put<User>(`/api/users/${id}`, data);
+
+// DELETE 요청
+await httpClient.delete(`/api/users/${id}`);
+```
+
+## 서비스 레이어
+
+### 기본 서비스 구조
+```tsx
+// services/user/user.ts
+import { httpClient } from '@/lib/httpClient';
+
+export const userService = {
+  // 목록 조회
+  getUsers: async (params?: { page?: number; search?: string }) => {
+    const searchParams = new URLSearchParams();
+    if (params?.page) searchParams.set('page', params.page.toString());
+    if (params?.search) searchParams.set('search', params.search);
+    
+    return httpClient.get<{
+      users: User[];
+      total: number;
+      page: number;
+    }>(`/api/users?${searchParams.toString()}`);
+  },
+
+  // 단일 조회
+  getUser: async (id: string) => {
+    return httpClient.get<User>(`/api/users/${id}`);
+  },
+
+  // 생성
+  createUser: async (data: CreateUserRequest) => {
+    return httpClient.post<User>('/api/users', data);
+  },
+
+  // 업데이트
+  updateUser: async (id: string, data: UpdateUserRequest) => {
+    return httpClient.put<User>(`/api/users/${id}`, data);
+  },
+
+  // 삭제
+  deleteUser: async (id: string) => {
+    return httpClient.delete(`/api/users/${id}`);
+  },
+};
+```
+
+## TanStack Query 패턴
+
+### 기본 쿼리 훅
+```tsx
+// hooks/useUsers.ts
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { userService } from '@/services/user/user';
+
+export const useUsers = (params?: { page?: number; search?: string }) => {
+  return useQuery({
+    queryKey: ['users', params],
+    queryFn: () => userService.getUsers(params),
+    staleTime: 5 * 60 * 1000, // 5분
+  });
+};
+
+export const useUser = (id: string) => {
+  return useQuery({
+    queryKey: ['user', id],
+    queryFn: () => userService.getUser(id),
+    enabled: !!id,
+  });
+};
+```
+
+### Mutation 훅
+```tsx
+export const useCreateUser = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: userService.createUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      toast({ title: '성공', description: '사용자가 생성되었습니다.' });
+    },
+    onError: (error) => {
+      toast({
+        title: '오류',
+        description: '사용자 생성에 실패했습니다.',
+        variant: 'destructive',
+      });
+    },
+  });
+};
+
+export const useUpdateUser = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: UpdateUserRequest }) =>
+      userService.updateUser(id, data),
+    onSuccess: (updatedUser) => {
+      queryClient.setQueryData(['user', updatedUser.id], updatedUser);
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+    },
+  });
+};
+
+export const useDeleteUser = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: userService.deleteUser,
+    onSuccess: (_, deletedUserId) => {
+      queryClient.removeQueries({ queryKey: ['user', deletedUserId] });
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+    },
+  });
+};
+```
+
+## Zustand 상태 관리
+
+### 기본 스토어 구조
+```tsx
+// store/userStore.ts
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+
+type UserStore = {
+  currentUser: User | null;
+  isAuthenticated: boolean;
+  setCurrentUser: (user: User | null) => void;
+  logout: () => void;
+};
+
+export const useUserStore = create<UserStore>()(
+  devtools(
+    (set) => ({
+      currentUser: null,
+      isAuthenticated: false,
+      
+      setCurrentUser: (user) =>
+        set({ currentUser: user, isAuthenticated: !!user }),
+        
+      logout: () =>
+        set({ currentUser: null, isAuthenticated: false }),
+    }),
+    { name: 'user-store' }
+  )
+);
+
+// 셀렉터 패턴
+export const useCurrentUser = () => useUserStore((state) => state.currentUser);
+export const useIsAuthenticated = () => useUserStore((state) => state.isAuthenticated);
+```
+
+## 에러 처리
+
+### API 에러 핸들링
+```tsx
+// lib/httpClient.ts
+export class ApiError extends Error {
+  constructor(
+    public status: number,
+    message: string,
+    public data?: any
+  ) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
+
+// 에러 핸들러
+export const useApiErrorHandler = () => {
+  return (error: unknown) => {
+    if (error instanceof ApiError) {
+      switch (error.status) {
+        case 401:
+          window.location.href = '/login';
+          break;
+        case 403:
+          toast({ title: '접근 권한이 없습니다', variant: 'destructive' });
+          break;
+        case 404:
+          toast({ title: '리소스를 찾을 수 없습니다', variant: 'destructive' });
+          break;
+        default:
+          toast({ title: '오류 발생', variant: 'destructive' });
+      }
+    }
+  };
+};
+```
+
+## 실제 사용 예시
+
+### 컴포넌트에서 사용
+```tsx
+'use client';
+
+import { useUsers, useCreateUser, useDeleteUser } from '@/hooks/useUsers';
+
+export const UserManagement = () => {
+  const { data: usersData, isLoading } = useUsers({ page: 1, limit: 10 });
+  const createUser = useCreateUser();
+  const deleteUser = useDeleteUser();
+
+  const handleCreateUser = () => {
+    createUser.mutate({
+      name: '새 사용자',
+      email: 'new@example.com',
+    });
+  };
+
+  if (isLoading) return <div>로딩 중...</div>;
+
+  return (
+    <div>
+      <Button onClick={handleCreateUser} disabled={createUser.isPending}>
+        {createUser.isPending ? '생성 중...' : '사용자 생성'}
+      </Button>
+      
+      {usersData?.users.map((user) => (
+        <div key={user.id} className="flex justify-between p-4 border">
+          <span>{user.name}</span>
+          <Button
+            variant="destructive"
+            onClick={() => deleteUser.mutate(user.id)}
+          >
+            삭제
+          </Button>
+        </div>
+      ))}
+    </div>
+  );
+};
+```
+
+## 참조 파일
+
+- @lib/httpClient.ts - HTTP 클라이언트
+- @services/ - API 서비스 레이어
+- @store/ - Zustand 상태 관리
+- @hooks/ - TanStack Query 훅

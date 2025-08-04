@@ -1,0 +1,157 @@
+---
+description: Next.js App Router & React 개발 패턴
+globs: ["app/**/*", "components/**/*"]
+alwaysApply: false
+---
+
+# Next.js & React 개발 규칙
+
+## App Router 구조
+
+### 디렉토리 패턴
+```
+app/
+├── (private)/          # 인증 필요 페이지
+│   ├── dashboard/
+│   └── layout.tsx      # Private 레이아웃
+├── (public)/           # 공개 페이지
+│   ├── (auth)/login/
+│   └── layout.tsx      # Public 레이아웃
+└── api/                # API 라우트
+```
+
+### 파일 명명 규칙
+- `page.tsx` - 페이지 컴포넌트
+- `layout.tsx` - 레이아웃 컴포넌트  
+- `loading.tsx` - 로딩 UI
+- `error.tsx` - 에러 UI
+- `not-found.tsx` - 404 페이지
+
+## 컴포넌트 패턴
+
+### Server Components (기본)
+```tsx
+// 서버에서 데이터 페칭
+export const UserList = async ({ userId }: { userId: string }) => {
+  const users = await getUsersFromDB(userId);
+  
+  return (
+    <div className="space-y-4">
+      {users.map(user => <UserCard key={user.id} user={user} />)}
+    </div>
+  );
+};
+```
+
+### Client Components (필요시만)
+```tsx
+'use client';
+
+export const InteractiveButton = () => {
+  const [count, setCount] = useState(0);
+  
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      클릭수: {count}
+    </button>
+  );
+};
+```
+
+### 컴포넌트 구조
+```tsx
+// 1. 타입 정의
+type ButtonProps = {
+  variant?: 'primary' | 'secondary';
+} & ComponentProps<'button'>;
+
+// 2. 메인 컴포넌트
+export const Button = ({ variant = 'primary', ...props }: ButtonProps) => {
+  return <button className={cn(buttonVariants({ variant }))} {...props} />;
+};
+```
+
+## 데이터 페칭
+
+### Server Components
+```tsx
+export const ProductPage = async ({ params }: { params: { id: string } }) => {
+  const product = await fetch(`/api/products/${params.id}`).then(res => res.json());
+  return <ProductDetail product={product} />;
+};
+```
+
+### Client Components (TanStack Query)
+```tsx
+'use client';
+
+export const ProductSearch = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ['products'],
+    queryFn: () => fetch('/api/products').then(res => res.json()),
+  });
+
+  if (isLoading) return <Skeleton />;
+  return <ProductList products={data} />;
+};
+```
+
+## 상태 관리
+
+### Zustand Store
+```tsx
+type UserStore = {
+  user: User | null;
+  login: (user: User) => void;
+  logout: () => void;
+};
+
+export const useUserStore = create<UserStore>((set) => ({
+  user: null,
+  login: (user) => set({ user }),
+  logout: () => set({ user: null }),
+}));
+```
+
+## 에러 처리
+
+### Error Boundary
+```tsx
+'use client';
+
+export default function Error({ error, reset }: {
+  error: Error;
+  reset: () => void;
+}) {
+  return (
+    <div className="text-center p-8">
+      <h2>오류가 발생했습니다</h2>
+      <button onClick={reset}>다시 시도</button>
+    </div>
+  );
+}
+```
+
+## 성능 최적화
+
+### Suspense
+```tsx
+export const ProductPage = () => (
+  <Suspense fallback={<ProductSkeleton />}>
+    <ProductList />
+  </Suspense>
+);
+```
+
+### 동적 임포트
+```tsx
+const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
+  loading: () => <div>로딩...</div>
+});
+```
+
+## 참조 파일
+
+- @app/layout.tsx
+- @app/providers.tsx
+- @middleware.ts

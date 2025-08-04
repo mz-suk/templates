@@ -1,0 +1,212 @@
+---
+description: shadcn/ui 컴포넌트 & Tailwind CSS 스타일링 가이드
+globs: ["components/**/*", "app/**/*.tsx"]
+alwaysApply: false
+---
+
+# UI 컴포넌트 개발 규칙
+
+## shadcn/ui 컴포넌트
+
+### 기본 사용법
+```tsx
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+
+export const UserForm = () => (
+  <Card className="w-full max-w-md">
+    <CardHeader>
+      <CardTitle>사용자 등록</CardTitle>
+    </CardHeader>
+    <CardContent className="space-y-4">
+      <Input placeholder="이름을 입력하세요" />
+      <Button className="w-full">등록</Button>
+    </CardContent>
+  </Card>
+);
+```
+
+### 컴포넌트 확장
+```tsx
+import { Button, ButtonProps } from '@/components/ui/Button';
+import { cn } from '@/lib/utils';
+
+export const CustomButton = ({ className, ...props }: ButtonProps) => (
+  <Button 
+    className={cn('shadow-lg hover:shadow-xl', className)}
+    {...props}
+  />
+);
+```
+
+## Tailwind CSS 스타일링
+
+### 클래스 순서 규칙
+1. 레이아웃 (flex, grid, block)
+2. 위치 (relative, absolute)
+3. 크기 (w-, h-)
+4. 간격 (m-, p-)
+5. 타이포그래피 (text-, font-)
+6. 색상 (bg-, text-, border-)
+7. 기타 스타일 (rounded-, shadow-)
+8. 반응형 (sm:, md:, lg:)
+9. 상태 (hover:, focus:)
+
+```tsx
+// 좋은 예
+<div className="flex flex-col w-full max-w-md p-6 text-sm bg-white border rounded-lg shadow-md hover:shadow-lg md:p-8">
+
+// 나쁜 예  
+<div className="hover:shadow-lg bg-white p-6 flex w-full shadow-md text-sm rounded-lg border flex-col max-w-md md:p-8">
+```
+
+### 반응형 디자인 (Mobile-first)
+```tsx
+export const ResponsiveCard = () => (
+  <div className="w-full p-4 sm:p-6 md:max-w-lg lg:max-w-xl">
+    <h2 className="text-lg sm:text-xl md:text-2xl">반응형 제목</h2>
+  </div>
+);
+```
+
+### 다크 모드
+```tsx
+export const ThemedComponent = () => (
+  <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+    <h1 className="text-blue-600 dark:text-blue-400">제목</h1>
+    <p className="text-gray-600 dark:text-gray-300">내용</p>
+  </div>
+);
+```
+
+## 폼 처리 (React Hook Form + Zod)
+
+### 기본 폼 구조
+```tsx
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/Form';
+
+const userSchema = z.object({
+  name: z.string().min(2, '이름은 최소 2자 이상'),
+  email: z.string().email('올바른 이메일 형식이 아닙니다'),
+});
+
+type UserFormData = z.infer<typeof userSchema>;
+
+export const UserForm = () => {
+  const form = useForm<UserFormData>({
+    resolver: zodResolver(userSchema),
+    defaultValues: { name: '', email: '' },
+  });
+
+  const onSubmit = async (data: UserFormData) => {
+    try {
+      await fetch('/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+    } catch (error) {
+      console.error('등록 실패:', error);
+    }
+  };
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>이름</FormLabel>
+              <FormControl>
+                <Input placeholder="이름 입력" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
+        <Button type="submit" disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting ? '등록 중...' : '등록'}
+        </Button>
+      </form>
+    </Form>
+  );
+};
+```
+
+### 동적 필드 (useFieldArray)
+```tsx
+import { useFieldArray } from 'react-hook-form';
+
+export const TagsForm = () => {
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "tags"
+  });
+
+  return (
+    <div className="space-y-2">
+      {fields.map((field, index) => (
+        <div key={field.id} className="flex gap-2">
+          <Input {...form.register(`tags.${index}`)} />
+          <Button type="button" onClick={() => remove(index)}>삭제</Button>
+        </div>
+      ))}
+      <Button type="button" onClick={() => append('')}>태그 추가</Button>
+    </div>
+  );
+};
+```
+
+## 아이콘 사용 (Lucide React)
+
+```tsx
+import { Search, User, Settings, ChevronDown } from 'lucide-react';
+
+export const IconExample = () => (
+  <div className="flex items-center gap-4">
+    <Search className="h-4 w-4" />
+    <User className="h-6 w-6 text-blue-500" />
+    
+    <Button>
+      <Settings className="h-4 w-4 mr-2" />
+      설정
+    </Button>
+    
+    <Button variant="ghost">
+      드롭다운
+      <ChevronDown className={cn(
+        "h-4 w-4 ml-2 transition-transform",
+        isOpen && "rotate-180"
+      )} />
+    </Button>
+  </div>
+);
+```
+
+## 애니메이션
+
+```tsx
+// Tailwind 애니메이션
+export const AnimatedCard = ({ isLoading }: { isLoading: boolean }) => (
+  <div className={cn(
+    "p-6 border rounded-lg transition-all duration-300",
+    "hover:shadow-lg hover:scale-105",
+    isLoading && "animate-pulse"
+  )}>
+    로딩 중...
+  </div>
+);
+```
+
+## 참조 파일
+
+- @components/ui/ - shadcn/ui 컴포넌트
+- @lib/utils.ts - cn() 유틸리티
+- @lib/schema/ - Zod 스키마
