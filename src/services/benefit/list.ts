@@ -3,8 +3,8 @@ import { SortingState } from '@tanstack/react-table';
 
 import { PaginatedResponse } from '@/types/api';
 import { CouponData } from '@/types/benefit';
-import { ProductDataTableModel } from '@/types/product';
-import { httpClient } from '@/lib/httpClient';
+// import { ProductDataTableModel } from '@/types/product';
+// import { httpClient } from '@/lib/httpClient';
 import { buildQueryParams } from '@/lib/utils';
 
 interface UsePostsOptions {

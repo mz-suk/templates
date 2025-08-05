@@ -64,7 +64,7 @@ type FormValues = {
 };
 
 const LIMIT = 50;
-const TOTAL_COUNT = 200;
+// const TOTAL_COUNT = 200;
 
 export default function BenefitListPage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -98,7 +98,11 @@ export default function BenefitListPage() {
     setSorting(newSorting);
   };
 
-  const { data, isLoading, isError, isFetching } = useBenefitList({
+  const {
+    data: _data,
+    isLoading,
+    /* isError, */ isFetching,
+  } = useBenefitList({
     page: currentPage,
     limit: LIMIT,
     sorting,
@@ -106,6 +110,7 @@ export default function BenefitListPage() {
 
   function onSubmit(data: FormValues) {
     // TODO: API 호출 등 데이터 처리 로직 구현
+    console.log(data);
   }
 
   const colWidths = ['w-40', 'w-[calc(50%-8rem)]', 'w-40', 'w-[calc(50%-8rem)]'];
@@ -369,10 +374,10 @@ export default function BenefitListPage() {
       ) : (
         <DataTable
           columns={Columns}
-          data={data?.result ?? []}
+          data={_data?.result ?? []}
           currentPage={currentPage}
           onPageChange={setCurrentPage}
-          totalCount={data?.paginationInfo?.totalCount ?? 0}
+          totalCount={_data?.paginationInfo?.totalCount ?? 0}
           pageSize={LIMIT}
           sorting={sorting}
           onSortingChange={handleSortingChange}

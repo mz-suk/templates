@@ -90,9 +90,9 @@ export function NavMain({ items }: { items: NavItem[] }) {
                       {item.items?.map((subItem) => {
                         const isSubOpen = openMenus[subItem.url];
                         const hasSubChildren = subItem.items?.length;
-                        const isSubActive = hasSubChildren
-                          ? pathname.startsWith(subItem.url)
-                          : pathname === subItem.url;
+                        // const isSubActive = hasSubChildren
+                        //   ? pathname.startsWith(subItem.url)
+                        //   : pathname === subItem.url;
 
                         return (
                           <SidebarMenuSubItem key={subItem.title}>
